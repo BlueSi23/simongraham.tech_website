@@ -252,7 +252,7 @@ export function ParticleBackgroundDemo() {
                 },
             },
             interactivity: {
-                detectsOn: "window",
+                detectsOn: "window" as const,
                 events: {
                     onHover: {
                         enable: true,
