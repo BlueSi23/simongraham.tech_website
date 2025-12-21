@@ -399,7 +399,7 @@ export function ParticleBackgroundDemo() {
                     fpsLimit: 120,
                     detectRetina: true,
                 }}
-                particlesLoaded={(container) => {
+                particlesLoaded={async (container) => {
                     containerRef.current = container;
                 }}
             />
