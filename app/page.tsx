@@ -3,15 +3,11 @@ import { ServiceCards } from "../components/sections/ServiceCards";
 import { FeaturedExperiments } from "../components/sections/FeaturedExperiments";
 import { LatestArticles } from "../components/sections/LatestArticles";
 import { ExperienceSnapshot } from "../components/sections/ExperienceSnapshot";
-import { getFeaturedExperiments, getLatestArticles } from "../lib/firestore";
 
-export const revalidate = 60;
-
-export default async function HomePage() {
-  const [experiments, articles] = await Promise.all([
-    getFeaturedExperiments(3),
-    getLatestArticles(3),
-  ]);
+export default function HomePage() {
+  // Empty arrays until we set up proper data sources
+  const experiments: any[] = [];
+  const articles: any[] = [];
 
   return (
     <>
