@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import "./globals.css";
 import { Header } from "../components/layout/Header";
 import { Footer } from "../components/layout/Footer";
+import { ParticleBackground } from "../components/effects/ParticleBackground";
 
 export const metadata = {
   title: "Creative Technologist – Portfolio",
@@ -12,22 +13,24 @@ export const metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" style={{ backgroundColor: '#000000', color: '#ffffff' }}>
-      <body style={{ 
-        minHeight: '100vh', 
-        backgroundColor: '#000000', 
+      <body style={{
+        minHeight: '100vh',
+        backgroundColor: '#000000',
         color: '#ffffff',
         fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif',
         WebkitFontSmoothing: 'antialiased',
-        MozOsxFontSmoothing: 'grayscale'
+        MozOsxFontSmoothing: 'grayscale',
+        margin: 0,
+        padding: 0,
+        position: 'relative',
       }}>
-        <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+        <ParticleBackground />
+        <div style={{ position: 'relative', zIndex: 1 }}>
           <Header />
-          <main style={{ flex: 1 }}>{children}</main>
+          <main>{children}</main>
           <Footer />
         </div>
       </body>
     </html>
   );
 }
-
-

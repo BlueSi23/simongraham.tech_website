@@ -13,6 +13,8 @@
   "dependencies": {
     "@radix-ui/react-slot": "^1.0.2",
     "@sendgrid/mail": "^8.1.0",
+    "@tsparticles/react": "^3.0.0",
+    "@tsparticles/slim": "^3.9.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "firebase-admin": "^12.0.0",
@@ -22,7 +24,8 @@
     "nodemailer": "^7.0.11",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
-    "tailwind-merge": "^2.2.2"
+    "tailwind-merge": "^2.2.2",
+    "tsparticles": "^3.9.1"
   },
   "devDependencies": {
     "@types/nodemailer": "^7.0.4",
