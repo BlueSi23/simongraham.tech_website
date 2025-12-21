@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import "./globals.css";
 import { Header } from "../components/layout/Header";
 import { Footer } from "../components/layout/Footer";
+import { GlitchTransition } from "../components/effects/GlitchTransition";
 import { ParticleBackground } from "../components/effects/ParticleBackground";
 
 export const metadata = {
@@ -12,10 +13,10 @@ export const metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" style={{ backgroundColor: '#000000', color: '#ffffff' }}>
+    <html lang="en">
       <body style={{
         minHeight: '100vh',
-        backgroundColor: '#000000',
+        backgroundColor: 'transparent',
         color: '#ffffff',
         fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif',
         WebkitFontSmoothing: 'antialiased',
@@ -24,12 +25,16 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         padding: 0,
         position: 'relative',
       }}>
+        {/* Text-aware particle background with chromatic aberration */}
         <ParticleBackground />
-        <div style={{ position: 'relative', zIndex: 1 }}>
-          <Header />
-          <main>{children}</main>
-          <Footer />
-        </div>
+
+        <GlitchTransition>
+          <div style={{ position: 'relative', zIndex: 1 }}>
+            <Header />
+            <main>{children}</main>
+            <Footer />
+          </div>
+        </GlitchTransition>
       </body>
     </html>
   );

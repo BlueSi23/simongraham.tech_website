@@ -22,7 +22,8 @@ interface ExperimentsPageProps {
 
 export default async function ExperimentsPage(props: ExperimentsPageProps) {
   const searchParams = await props.searchParams;
-  const experiments = await getAllExperiments();
+  // Temporarily return empty experiments to avoid Firebase errors
+  const experiments: any[] = [];
   const activeTag = (searchParams?.tag as ExperimentTag | "All") || "All";
 
   const filtered =
@@ -68,36 +69,39 @@ export default async function ExperimentsPage(props: ExperimentsPageProps) {
         </div>
 
         <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-          {filtered.map((exp) => (
-            <Card key={exp.id} className="flex flex-col">
-              <CardHeader>
-                <CardTitle>{exp.title}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="mb-3 line-clamp-3">{exp.excerpt}</p>
-                <div className="mb-4 flex flex-wrap gap-1.5">
-                  {exp.tags?.map((tag) => (
-                    <Badge key={tag} variant="outline">
-                      {tag}
-                    </Badge>
-                  ))}
-                </div>
-                <Link
-                  href={`/experiments/${exp.slug}`}
-                  className="text-xs font-medium text-zinc-200 hover:text-white"
-                >
-                  View details →
-                </Link>
-              </CardContent>
-            </Card>
-          ))}
+          {filtered.length === 0 ? (
+            <div className="col-span-3 py-12 text-center">
+              <p className="text-zinc-500 mb-2">No experiments available yet.</p>
+              <p className="text-sm text-zinc-600">Check back soon for new projects!</p>
+            </div>
+          ) : (
+            filtered.map((exp) => (
+              <Card key={exp.id} className="flex flex-col">
+                <CardHeader>
+                  <CardTitle>{exp.title}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="mb-3 line-clamp-3">{exp.excerpt}</p>
+                  <div className="mb-4 flex flex-wrap gap-1.5">
+                    {exp.tags?.map((tag) => (
+                      <Badge key={tag} variant="outline">
+                        {tag}
+                      </Badge>
+                    ))}
+                  </div>
+                  <Link
+                    href={`/experiments/${exp.slug}`}
+                    className="text-xs font-medium text-zinc-200 hover:text-white"
+                  >
+                    View details →
+                  </Link>
+                </CardContent>
+              </Card>
+            ))
+          )}
         </div>
       </Container>
     </div>
   );
 }
-
-
-
-
 

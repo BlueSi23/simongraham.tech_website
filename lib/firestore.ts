@@ -5,17 +5,27 @@ import matter from "gray-matter";
 import * as admin from "firebase-admin";
 
 // --- Firebase Admin Setup ---
+let db: admin.firestore.Firestore | null = null;
+
 if (!admin.apps.length) {
     try {
         admin.initializeApp({
             credential: admin.credential.applicationDefault(),
         });
+        db = admin.firestore();
+        console.log("Firebase Admin initialized successfully");
     } catch (error) {
-        console.warn("Firebase Admin failed to initialize. Dynamic features (Contact, Availability) may not work locally without credentials.", error);
+        console.warn("Firebase Admin failed to initialize. Dynamic features (Contact, Availability) may not work.", error);
+        db = null;
+    }
+} else {
+    try {
+        db = admin.firestore();
+    } catch (error) {
+        console.warn("Failed to get Firestore instance", error);
+        db = null;
     }
 }
-
-const db = admin.apps.length ? admin.firestore() : null;
 
 // --- Articles (FileSystem Implementation) ---
 const articlesDirectory = path.join(process.cwd(), "content/articles");
@@ -158,12 +168,12 @@ export async function getAvailabilityTokenByToken(
 
 // --- Experiments (Mock/Placeholder for now) ---
 export async function getFeaturedExperiments(limit: number = 3): Promise<any[]> {
-    // Return empty array for now to fix build. 
-    // Ideally this would come from a content/experiments folder or firestore
+    // TODO: Implement from Firestore or file system when experiments are added
     return [];
 }
 
 export async function getAllExperiments(): Promise<any[]> {
+    // TODO: Implement from Firestore or file system when experiments are added
     return [];
 }
 
