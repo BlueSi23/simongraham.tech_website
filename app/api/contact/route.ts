@@ -41,9 +41,14 @@ export async function POST(req: NextRequest) {
       budget: body.budget!,
     };
 
-    await createContactSubmission(submission);
+    // Try to save to Firestore (optional - won't block email if it fails)
+    try {
+      await createContactSubmission(submission);
+    } catch (error) {
+      console.warn("Failed to save to Firestore (non-blocking):", error);
+    }
 
-    // Send email via SMTP (Namecheap)
+    // Send email via SMTP (Namecheap) - this always runs
     const smtpHost = process.env.SMTP_HOST;
     const smtpPort = process.env.SMTP_PORT;
     const smtpUser = process.env.SMTP_USER;
