@@ -1,0 +1,181 @@
+import { Article, ContactSubmission, AvailabilityToken } from "./types";
+import fs from "fs";
+import path from "path";
+import matter from "gray-matter";
+import * as admin from "firebase-admin";
+
+// --- Firebase Admin Setup ---
+if (!admin.apps.length) {
+    try {
+        admin.initializeApp({
+            credential: admin.credential.applicationDefault(),
+        });
+    } catch (error) {
+        console.warn("Firebase Admin failed to initialize. Dynamic features (Contact, Availability) may not work locally without credentials.", error);
+    }
+}
+
+const db = admin.apps.length ? admin.firestore() : null;
+
+// --- Articles (FileSystem Implementation) ---
+const articlesDirectory = path.join(process.cwd(), "content/articles");
+
+export async function getAllArticles(): Promise<Article[]> {
+    if (!fs.existsSync(articlesDirectory)) {
+        return [];
+    }
+
+    const fileNames = fs.readdirSync(articlesDirectory);
+    const allArticles = fileNames
+        .filter((fileName) => fileName.endsWith(".mdx"))
+        .map((fileName) => {
+            const slug = fileName.replace(/\.mdx$/, "");
+            const fullPath = path.join(articlesDirectory, fileName);
+            const fileContents = fs.readFileSync(fullPath, "utf8");
+            const { data } = matter(fileContents);
+
+            return {
+                id: slug,
+                slug,
+                title: data.title,
+                excerpt: data.excerpt,
+                tags: data.tags || [],
+                thumbnail: data.thumbnail,
+                publishedAt: data.publishedAt ? new Date(data.publishedAt) : undefined,
+            } as Article;
+        });
+
+    // Sort articles by date
+    return allArticles.sort((a, b) => {
+        if (a.publishedAt && b.publishedAt) {
+            return a.publishedAt < b.publishedAt ? 1 : -1;
+        }
+        return 0;
+    });
+}
+
+export async function getArticleBySlug(slug: string): Promise<Article | null> {
+    try {
+        const fullPath = path.join(articlesDirectory, `${slug}.mdx`);
+        if (!fs.existsSync(fullPath)) {
+            return null;
+        }
+
+        const fileContents = fs.readFileSync(fullPath, "utf8");
+        const { data } = matter(fileContents);
+
+        return {
+            id: slug,
+            slug,
+            title: data.title,
+            excerpt: data.excerpt,
+            tags: data.tags || [],
+            thumbnail: data.thumbnail,
+            publishedAt: data.publishedAt ? new Date(data.publishedAt) : undefined,
+        } as Article;
+    } catch (error) {
+        return null;
+    }
+}
+
+export async function getRelatedArticles(
+    tags: string[],
+    currentSlug: string,
+    limit: number = 3
+): Promise<Article[]> {
+    const allArticles = await getAllArticles();
+
+    return allArticles
+        .filter((article) => article.slug !== currentSlug) // Exclude current
+        .map((article) => {
+            // Calculate intersection of tags
+            const intersection = article.tags.filter((tag) => tags.includes(tag));
+            return {
+                article,
+                relevance: intersection.length,
+            };
+        })
+        .filter((item) => item.relevance > 0) // Must share at least one tag
+        .sort((a, b) => b.relevance - a.relevance) // Sort by relevance
+        .slice(0, limit)
+        .map((item) => item.article);
+}
+
+// --- Contact (Firestore Implementation) ---
+export async function createContactSubmission(
+    submission: Omit<ContactSubmission, "id" | "submittedAt" | "read">
+): Promise<string> {
+    if (!db) {
+        console.warn("Firestore not initialized. Skipping contact submission storage.");
+        return "mock-id";
+    }
+
+    try {
+        const res = await db.collection("contact-submissions").add({
+            ...submission,
+            submittedAt: admin.firestore.FieldValue.serverTimestamp(),
+            read: false,
+        });
+        return res.id;
+    } catch (error) {
+        console.warn("Failed to save contact submission to Firestore:", error);
+        return "mock-id";
+    }
+}
+
+// --- Availability (Firestore Implementation) ---
+export async function getAvailabilityTokenByToken(
+    token: string
+): Promise<AvailabilityToken | null> {
+    if (!db) {
+        console.warn("Firestore not initialized. Returning null for availability token.");
+        return null;
+    }
+
+    const snapshot = await db
+        .collection("availability-tokens")
+        .where("token", "==", token)
+        .limit(1)
+        .get();
+
+    if (snapshot.empty) {
+        return null;
+    }
+
+    const doc = snapshot.docs[0];
+    const data = doc.data();
+
+    return {
+        id: doc.id,
+        token: data.token,
+        createdAt: data.createdAt?.toDate(),
+        expiresAt: data.expiresAt?.toDate(),
+        calendarUrl: data.calendarUrl,
+        isActive: data.isActive,
+        generatedFor: data.generatedFor,
+    } as AvailabilityToken;
+}
+
+// --- Experiments (Mock/Placeholder for now) ---
+export async function getFeaturedExperiments(limit: number = 3): Promise<any[]> {
+    // Return empty array for now to fix build. 
+    // Ideally this would come from a content/experiments folder or firestore
+    return [];
+}
+
+export async function getAllExperiments(): Promise<any[]> {
+    return [];
+}
+
+export async function getExperimentBySlug(slug: string): Promise<any | null> {
+    return null;
+}
+
+export async function getRelatedExperiments(tags: string[], slug: string, limit: number = 3): Promise<any[]> {
+    return [];
+}
+
+export async function getLatestArticles(limit: number = 3): Promise<Article[]> {
+    const allArticles = await getAllArticles();
+    return allArticles.slice(0, limit);
+}

@@ -1,0 +1,27 @@
+---
+description: Working notes and preferences for the creative technologist portfolio project
+globs: "**/*"
+alwaysApply: true
+---
+
+- **Design & Aesthetic**
+  - Dark, type-forward layouts inspired by the reference PNG with subtle dividing lines and restrained motion.
+  - Prefer generous negative space, tight tracking for small labels, and minimal color beyond grayscale accents.
+
+- **Implementation Preferences**
+  - Use server components for data-fetching pages; keep client components small and intentionally scoped (forms, embeds).
+  - Centralise Firestore access in `lib/firestore.ts` and avoid ad-hoc calls inside components.
+  - Keep layout primitives (`Header`, `Footer`, `Container`) stable; compose sections on pages rather than nesting complex logic in the layout.
+
+- **Content & Data**
+  - Ensure MDX filenames and Firestore `slug` fields stay in sync for experiments/articles.
+  - Use front matter primarily for content-facing metadata; keep query-critical fields (slug, tags, featured, dates) in Firestore.
+
+- **Docs & Memory Bank**
+  - Update `memory-bank/activeContext.md` and `memory-bank/progress.md` after significant structural changes.
+  - When adding new patterns, capture them in `memory-bank/systemPatterns.md` to keep future work aligned.
+
+
+
+
+
