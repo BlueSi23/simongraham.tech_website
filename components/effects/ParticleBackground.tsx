@@ -96,7 +96,7 @@ export function ParticleBackground() {
                 height: '100%',
                 zIndex: -1,
                 filter: chromaticActive
-                    ? `drop-shadow(3px 0 0 rgba(255, 0, 0, 0.6)) drop-shadow(-3px 0 0 rgba(0, 255, 255, 0.6))`
+                    ? `drop-shadow(5px 0 0 rgba(255, 0, 0, 0.8)) drop-shadow(-5px 0 0 rgba(0, 255, 255, 0.8)) drop-shadow(0 3px 0 rgba(0, 255, 0, 0.5))`
                     : 'none',
                 transition: 'filter 0.2s ease-in-out',
                 /* GPU optimization */
