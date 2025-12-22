@@ -132,7 +132,7 @@ export default function TimelinePage() {
                         color: '#ffffff',
                         marginBottom: '0.75rem'
                     }}>
-                        Career Timeline
+                        Career Experience Timeline
                     </h1>
                     <p style={{
                         fontSize: '0.875rem',

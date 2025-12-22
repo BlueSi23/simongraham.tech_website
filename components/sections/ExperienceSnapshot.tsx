@@ -27,16 +27,16 @@ const phases = [
 
 export function ExperienceSnapshot() {
   return (
-    <section style={{ borderTop: '1px solid rgba(39, 39, 42, 0.3)', paddingTop: '8rem', paddingBottom: '8rem' }}>
+    <section style={{ borderTop: '1px solid rgba(39, 39, 42, 0.3)', paddingTop: '4rem', paddingBottom: '4rem' }}>
       <Container>
         <div style={{
           display: 'grid',
-          gap: '4rem',
-          gridTemplateColumns: '1fr 1.5fr',
+          gap: '2rem',
+          gridTemplateColumns: '1fr',
           alignItems: 'start'
         }}>
           <h2 style={{
-            fontSize: 'clamp(3rem, 10vw, 8rem)',
+            fontSize: 'clamp(2.5rem, 8vw, 6rem)',
             fontWeight: 700,
             lineHeight: '0.95',
             letterSpacing: '-0.03em',
@@ -44,7 +44,7 @@ export function ExperienceSnapshot() {
           }}>
             Experience
           </h2>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem', paddingTop: '1rem' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
             <p style={{
               fontSize: '1.125rem',
               lineHeight: '1.75',

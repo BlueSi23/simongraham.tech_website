@@ -38,7 +38,7 @@ export function Hero() {
               color: '#a1a1aa'
             }}>
               I help teams navigate the messy space between creative ambition and
-              technical reality—de-risking projects, prototyping boldly, and
+              technical reality, de-risking projects, prototyping boldly, and
               shipping work that feels inevitable once you see it.
             </p>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', paddingTop: '1rem' }}>
