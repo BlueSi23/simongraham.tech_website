@@ -10,7 +10,7 @@ const workHistory = [
         endYear: 2026,
         responsibilities: [
             'Contracting to provide creative discovery, technical architecture and creative technology direction, surfacing opportunities and translating concepts into buildable systems.',
-            'Leads technical project delivery from RFP to launch, including hands-on R&D prototyping that proves feasibility and de-risks stakeholder decisions.',
+            'Leads technical project delivery from RFP to launch, including hands-on R&D prototyping that proves feasibility and de-risks stakeholder decisions before specialists are identified and resourced.',
         ],
     },
     {
@@ -132,7 +132,7 @@ export default function TimelinePage() {
                         color: '#ffffff',
                         marginBottom: '0.75rem'
                     }}>
-                        Career Experience Timeline
+                        Career Experience
                     </h1>
                     <p style={{
                         fontSize: '0.875rem',

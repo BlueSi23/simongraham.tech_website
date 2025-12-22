@@ -166,23 +166,50 @@ export async function getAvailabilityTokenByToken(
     } as AvailabilityToken;
 }
 
-// --- Experiments (Mock/Placeholder for now) ---
+// --- Experiments (Connected to Static Data) ---
+import { Experiment } from "./experiments-data";
+import {
+    getExperiments,
+    getFeaturedExperiments as getFeatured,
+    getExperimentBySlug as getBySlug,
+    getRelatedExperiments as getRelated
+} from "./experiments-server";
+
 export async function getFeaturedExperiments(limit: number = 3): Promise<any[]> {
-    // TODO: Implement from Firestore or file system when experiments are added
-    return [];
+    const featured = getFeatured(limit);
+    return featured.map(e => ({
+        ...e,
+        thumbnail: e.image,
+        excerpt: e.description
+    }));
 }
 
 export async function getAllExperiments(): Promise<any[]> {
-    // TODO: Implement from Firestore or file system when experiments are added
-    return [];
+    const experiments = getExperiments();
+    return experiments.map(e => ({
+        ...e,
+        thumbnail: e.image,
+        excerpt: e.description
+    }));
 }
 
 export async function getExperimentBySlug(slug: string): Promise<any | null> {
-    return null;
+    const exp = getBySlug(slug);
+    if (!exp) return null;
+    return {
+        ...exp,
+        thumbnail: exp.image,
+        excerpt: exp.description
+    };
 }
 
 export async function getRelatedExperiments(tags: string[], slug: string, limit: number = 3): Promise<any[]> {
-    return [];
+    const related = getRelated(slug, tags, limit);
+    return related.map(e => ({
+        ...e,
+        thumbnail: e.image,
+        excerpt: e.description
+    }));
 }
 
 export async function getLatestArticles(limit: number = 3): Promise<Article[]> {

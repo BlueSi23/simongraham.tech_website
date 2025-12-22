@@ -6,22 +6,10 @@ export function Hero() {
   return (
     <section style={{ borderBottom: '1px solid rgba(39, 39, 42, 0.3)', paddingTop: '4rem', paddingBottom: '4rem' }}>
       <Container>
-        <div style={{ display: 'grid', gap: '2rem', gridTemplateColumns: '1fr', alignItems: 'start' }}>
-          {/* Heading */}
-          <div>
-            <h1 style={{
-              fontSize: 'clamp(2.5rem, 8vw, 6rem)',
-              fontWeight: 700,
-              lineHeight: '0.95',
-              letterSpacing: '-0.03em',
-              color: '#ffffff'
-            }}>
-              About
-            </h1>
-          </div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start">
 
-          {/* Description */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+          {/* Description - Order 2 on Mobile, Order 2 on Desktop (Right) */}
+          <div className="order-2 lg:order-2" style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
             <p style={{
               fontSize: 'clamp(1.25rem, 3vw, 2rem)',
               fontWeight: 700,
@@ -49,6 +37,19 @@ export function Hero() {
                 <a href="/experiments">Browse experiments</a>
               </Button>
             </div>
+          </div>
+
+          {/* Heading - Order 1 on Mobile, Order 1 on Desktop (Left) */}
+          <div className="order-1 lg:order-1 flex justify-start">
+            <h1 style={{
+              fontSize: 'clamp(2.5rem, 8vw, 6rem)',
+              fontWeight: 700,
+              lineHeight: '0.95',
+              letterSpacing: '-0.03em',
+              color: '#ffffff'
+            }}>
+              About
+            </h1>
           </div>
         </div>
       </Container>

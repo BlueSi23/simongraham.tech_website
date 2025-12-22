@@ -18,31 +18,31 @@ export function FeaturedExperiments({
   return (
     <section style={{ borderBottom: '1px solid rgba(39, 39, 42, 0.3)', paddingTop: '8rem', paddingBottom: '8rem' }}>
       <Container>
-        <div style={{ 
-          marginBottom: '6rem', 
-          display: 'grid', 
-          gap: '4rem', 
-          gridTemplateColumns: '1fr 1.5fr', 
-          alignItems: 'start' 
-        }}>
-          <h2 style={{ 
-            fontSize: 'clamp(3rem, 10vw, 8rem)', 
-            fontWeight: 700, 
-            lineHeight: '0.95', 
-            letterSpacing: '-0.03em',
-            color: '#ffffff'
-          }}>
-            Experiments
-          </h2>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', paddingTop: '1rem' }}>
+        <div className="mb-24 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start">
+
+          {/* Headline - Left on Desktop */}
+          <div className="order-1 lg:order-1 flex justify-start">
+            <h2 style={{
+              fontSize: 'clamp(3rem, 10vw, 8rem)',
+              fontWeight: 700,
+              lineHeight: '0.95',
+              letterSpacing: '-0.03em',
+              color: '#ffffff'
+            }}>
+              Experiments
+            </h2>
+          </div>
+
+          {/* Content - Right on Desktop */}
+          <div className="order-2 lg:order-2 flex flex-col gap-6 pt-4">
             <p style={{ fontSize: '1.125rem', lineHeight: '1.75', color: '#a1a1aa' }}>
               Prototypes and explorations in AI, interaction, IoT, and emerging tech.
             </p>
             <Link
               href="/experiments"
-              style={{ 
-                display: 'inline-block', 
-                fontSize: '1rem', 
+              style={{
+                display: 'inline-block',
+                fontSize: '1rem',
                 color: '#a1a1aa',
                 textDecoration: 'none',
                 transition: 'color 0.2s'
@@ -60,9 +60,9 @@ export function FeaturedExperiments({
               <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: '#ffffff' }}>
                 {exp.title}
               </h3>
-              <p style={{ 
-                fontSize: '1rem', 
-                lineHeight: '1.75', 
+              <p style={{
+                fontSize: '1rem',
+                lineHeight: '1.75',
                 color: '#a1a1aa',
                 display: '-webkit-box',
                 WebkitLineClamp: 3,
@@ -82,9 +82,9 @@ export function FeaturedExperiments({
               )}
               <Link
                 href={`/experiments/${exp.slug}`}
-                style={{ 
-                  display: 'inline-block', 
-                  fontSize: '1rem', 
+                style={{
+                  display: 'inline-block',
+                  fontSize: '1rem',
                   color: '#d4d4d8',
                   textDecoration: 'none',
                   paddingTop: '0.5rem',

@@ -1,10 +1,30 @@
 # Creative Technologist Personal Website
 ## Development Planning Document
 
-**Date:** December 17, 2025  
+**Date:** December 22, 2025  
 **Author:** Your Name  
-**Platform:** Next.js 14 (App Router) + Firebase Hosting + Cursor AI  
-**Status:** Ready for Development
+**Platform:** Next.js 14 (App Router) + Local CMS (JSON) + Firebase Hosting + Cursor AI  
+**Status:** Active Development (Architecture Pivot)
+
+---
+
+## 🚨 Architecture Update: Local CMS Pivot (Dec 22, 2025)
+
+**Major Change:** We have shifted from a Firestore-first approach for **Experiments** to a **Local CMS (JSON + File System)** approach.
+
+### Why?
+*   **Simplicity:** No need to manage a remote database for portfolio content that changes infrequently.
+*   **Control:** Full control over layout and content via a custom Admin UI.
+*   **Version Control:** Content (`data/experiments.json`) is committed to Git, ensuring history and rollback capabilities.
+*   **Dev Experience:** Instant local updates and "Hot Reloading" of content.
+
+### Key Changes
+1.  **Experiments Data:** Now lives in `data/experiments.json` (previously Firestore/MDX).
+2.  **Admin Dashboard:** New route `/admin` provides a UI to add/edit/delete experiments and build layouts.
+3.  **Image Uploads:** Handled locally via `app/api/upload` -> `public/uploads`.
+4.  **Layout Builder:** Experiments now use a block-based layout (Text/Image) instead of raw MDX.
+
+*Note: The original plan below is preserved for context, but "Experiments" and "Content" sections are superseded by this new architecture.*
 
 ---
 

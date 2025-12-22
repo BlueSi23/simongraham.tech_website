@@ -2,11 +2,12 @@
 
 import Link from "next/link";
 import { Container } from "./Container";
+import { HoverBoxLink } from "../ui/HoverBoxLink";
 
 const navItems = [
   { href: "/", label: "Home" },
   { href: "/experiments", label: "Experiments" },
-  { href: "/articles", label: "Articles" },
+  { href: "/writing", label: "Writing" },
   { href: "/timeline", label: "Experience" },
   { href: "/contact", label: "Contact" },
 ];
@@ -29,21 +30,13 @@ export function Header() {
       }}>
         <nav style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
           {navItems.map((item) => (
-            <Link
+            <HoverBoxLink
               key={item.href}
               href={item.href}
-              style={{
-                fontSize: '0.875rem',
-                fontWeight: 500,
-                color: '#a1a1aa',
-                textDecoration: 'none',
-                transition: 'color 0.2s'
-              }}
-              onMouseEnter={(e) => e.currentTarget.style.color = '#ffffff'}
-              onMouseLeave={(e) => e.currentTarget.style.color = '#a1a1aa'}
+              className="text-sm font-medium text-zinc-400 no-underline"
             >
               {item.label}
-            </Link>
+            </HoverBoxLink>
           ))}
         </nav>
       </Container>

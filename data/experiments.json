@@ -1,0 +1,50 @@
+[
+  {
+    "id": "exp-001",
+    "slug": "generative-audio-engine",
+    "title": "Generative Audio Engine",
+    "category": "Creative Coding",
+    "description": "Real-time soundscapes driven by environmental data inputs.",
+    "longDescription": "An exploration into sonifying weather patterns using the Web Audio API. This experiment connects to live weather APIs to modulate oscillator parameters, creating an ever-changing ambient soundscape that reflects current conditions in Tokyo.",
+    "image": "/images/experiments/audio-vis.png",
+    "tags": [
+      "Web Audio API",
+      "React",
+      "Data Visualization"
+    ],
+    "featured": true,
+    "layout": []
+  },
+  {
+    "id": "exp-002",
+    "slug": "smart-home-dashboard",
+    "title": "eInk Home Dashboard",
+    "category": "Hardware",
+    "description": "Low-power definition of home automation control.",
+    "longDescription": "A custom ESP32-based controller driving a 7.5-inch eInk display. Serves as a central hub for home assistant, showing transit times, weather, and energy usage with weeks of battery life.",
+    "image": "/images/experiments/eink.png",
+    "tags": [
+      "ESP32",
+      "C++",
+      "3D Printing"
+    ],
+    "featured": true,
+    "layout": []
+  },
+  {
+    "id": "exp-003",
+    "slug": "obsidian-agent",
+    "title": "Obsidian Research Agent",
+    "category": "AI / Tooling",
+    "description": "LLM-powered plugin for semantic search within personal notes.",
+    "longDescription": "A plugin for Obsidian that indexes local markdown vaults into a vector database, allowing for semantic queries and 'chat with your notes' functionality completely offline using local LLMs.",
+    "image": "/images/experiments/obsidian.png",
+    "tags": [
+      "TypeScript",
+      "Obsidian API",
+      "Local LLM"
+    ],
+    "featured": false,
+    "layout": []
+  }
+]

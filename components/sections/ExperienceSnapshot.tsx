@@ -29,22 +29,23 @@ export function ExperienceSnapshot() {
   return (
     <section style={{ borderTop: '1px solid rgba(39, 39, 42, 0.3)', paddingTop: '4rem', paddingBottom: '4rem' }}>
       <Container>
-        <div style={{
-          display: 'grid',
-          gap: '2rem',
-          gridTemplateColumns: '1fr',
-          alignItems: 'start'
-        }}>
-          <h2 style={{
-            fontSize: 'clamp(2.5rem, 8vw, 6rem)',
-            fontWeight: 700,
-            lineHeight: '0.95',
-            letterSpacing: '-0.03em',
-            color: '#ffffff'
-          }}>
-            Experience
-          </h2>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start">
+
+          {/* Headline - Left on Desktop */}
+          <div className="order-1 lg:order-1 flex justify-start">
+            <h2 style={{
+              fontSize: 'clamp(2.5rem, 8vw, 6rem)',
+              fontWeight: 700,
+              lineHeight: '0.95',
+              letterSpacing: '-0.03em',
+              color: '#ffffff'
+            }}>
+              Experience
+            </h2>
+          </div>
+
+          {/* Content - Right on Desktop */}
+          <div className="order-2 lg:order-2 flex flex-col gap-8">
             <p style={{
               fontSize: '1.125rem',
               lineHeight: '1.75',

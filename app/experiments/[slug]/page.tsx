@@ -1,6 +1,5 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { MDXRemote } from "next-mdx-remote/rsc";
 import { Container } from "../../../components/layout/Container";
 import { Badge } from "../../../components/ui/badge";
 import {
@@ -9,29 +8,25 @@ import {
   CardHeader,
   CardTitle,
 } from "../../../components/ui/card";
-import {
-  getExperimentBySlug,
-  getRelatedExperiments,
-} from "../../../lib/firestore";
-import { getExperimentMdx } from "../../../lib/content";
+import { getExperimentBySlug, getRelatedExperiments } from "../../../lib/experiments-server";
 
 interface ExperimentDetailPageProps {
   params: Promise<{ slug: string }>;
 }
 
 export const revalidate = 60;
+export const dynamic = "force-dynamic";
 
 export default async function ExperimentDetailPage(props: ExperimentDetailPageProps) {
   const params = await props.params;
-  const experiment = await getExperimentBySlug(params.slug);
+  const experiment = getExperimentBySlug(params.slug);
+
   if (!experiment) {
     notFound();
   }
 
-  const [{ source }, related] = await Promise.all([
-    getExperimentMdx(params.slug),
-    getRelatedExperiments(experiment.tags || [], experiment.slug, 3),
-  ]);
+  // Calculate related experiments
+  const related = getRelatedExperiments(experiment.slug, experiment.tags);
 
   return (
     <div className="py-10 sm:py-14">
@@ -50,15 +45,39 @@ export default async function ExperimentDetailPage(props: ExperimentDetailPagePr
               </Badge>
             ))}
           </div>
-          {experiment.excerpt && (
+          {experiment.description && (
             <p className="max-w-2xl text-sm text-zinc-400">
-              {experiment.excerpt}
+              {experiment.description}
             </p>
           )}
         </header>
 
-        <article className="prose prose-invert max-w-none prose-headings:tracking-tight prose-p:text-sm prose-p:text-zinc-300 prose-a:text-zinc-100">
-          <MDXRemote source={source} />
+        <article className="prose prose-invert max-w-none prose-headings:tracking-tight prose-p:text-sm prose-p:text-zinc-300 prose-a:text-zinc-100 space-y-8">
+          {experiment.layout && experiment.layout.length > 0 ? (
+            experiment.layout.map((block) => (
+              <div key={block.id}>
+                {block.type === "text" && (
+                  <p className="whitespace-pre-line leading-loose text-base text-zinc-300">
+                    {block.content}
+                  </p>
+                )}
+                {block.type === "image" && (
+                  <div className="relative w-full aspect-video rounded-lg overflow-hidden border border-zinc-800 my-8">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={block.content}
+                      alt="Process detail"
+                      className="object-cover w-full h-full"
+                    />
+                  </div>
+                )}
+              </div>
+            ))
+          ) : (
+            <p className="text-base text-zinc-300 whitespace-pre-line">
+              {experiment.longDescription}
+            </p>
+          )}
         </article>
 
         {related.length > 0 && (
@@ -81,7 +100,7 @@ export default async function ExperimentDetailPage(props: ExperimentDetailPagePr
                     <CardTitle>{exp.title}</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="mb-3 line-clamp-3">{exp.excerpt}</p>
+                    <p className="mb-3 line-clamp-3">{exp.description}</p>
                     <div className="mb-4 flex flex-wrap gap-1.5">
                       {exp.tags?.map((tag) => (
                         <Badge key={tag} variant="outline">

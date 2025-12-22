@@ -11,12 +11,21 @@ export function ParticleBackground() {
     const [particleCount, setParticleCount] = useState(100);
     const [mounted, setMounted] = useState(false);
     const [chromaticActive, setChromaticActive] = useState(false);
+    const [isDesktop, setIsDesktop] = useState(true);
     const pathname = usePathname();
     const canvasRef = useRef<HTMLDivElement>(null);
 
     // Ensure component is mounted on client
     useEffect(() => {
         setMounted(true);
+        // Check viewport on mount
+        setIsDesktop(window.matchMedia('(min-width: 1024px)').matches);
+
+        // Listen for viewport changes
+        const mediaQuery = window.matchMedia('(min-width: 1024px)');
+        const handler = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
+        mediaQuery.addEventListener('change', handler);
+        return () => mediaQuery.removeEventListener('change', handler);
     }, []);
 
     useEffect(() => {
@@ -27,18 +36,24 @@ export function ParticleBackground() {
         });
     }, []);
 
-    // Page transition effect
+    // Page transition effect - specific behavior for desktop vs mobile
     useEffect(() => {
         if (!mounted) return;
 
-        // Burst to 500 particles (reduced for mobile performance)
-        setParticleCount(500);
+        // Mobile optimization: constant low particle count, no burst
+        if (!isDesktop) {
+            setParticleCount(30);
+            return;
+        }
 
-        // Animate back down to 100 over 1 second
+        // Desktop: Burst to 75 particles
+        setParticleCount(75);
+
+        // Animate back down to 40 over 1 second
         const startTime = Date.now();
         const duration = 1000;
-        const startCount = 500;
-        const endCount = 100;
+        const startCount = 75;
+        const endCount = 40;
 
         const animate = () => {
             const elapsed = Date.now() - startTime;
@@ -55,11 +70,11 @@ export function ParticleBackground() {
         };
 
         requestAnimationFrame(animate);
-    }, [pathname, mounted]);
+    }, [pathname, mounted, isDesktop]);
 
-    // Chromatic aberration effect - triggers randomly every 10-20 seconds
+    // Chromatic aberration effect - Desktop only
     useEffect(() => {
-        if (!mounted) return;
+        if (!mounted || !isDesktop) return;
 
         const scheduleNextAberration = () => {
             // Random delay between 10-20 seconds
@@ -79,7 +94,7 @@ export function ParticleBackground() {
         const timeoutId = scheduleNextAberration();
 
         return () => clearTimeout(timeoutId);
-    }, [mounted]);
+    }, [mounted, isDesktop]);
 
     if (!init || !mounted) {
         return null;

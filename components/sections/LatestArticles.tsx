@@ -16,31 +16,18 @@ export function LatestArticles({ articles }: LatestArticlesProps) {
   return (
     <section style={{ borderBottom: '1px solid rgba(39, 39, 42, 0.3)', paddingTop: '8rem', paddingBottom: '8rem' }}>
       <Container>
-        <div style={{ 
-          marginBottom: '6rem', 
-          display: 'grid', 
-          gap: '4rem', 
-          gridTemplateColumns: '1fr 1.5fr', 
-          alignItems: 'start' 
-        }}>
-          <h2 style={{ 
-            fontSize: 'clamp(3rem, 10vw, 8rem)', 
-            fontWeight: 700, 
-            lineHeight: '0.95', 
-            letterSpacing: '-0.03em',
-            color: '#ffffff'
-          }}>
-            Articles
-          </h2>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', paddingTop: '1rem' }}>
+        <div className="mb-24 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start">
+
+          {/* Content - Left on Desktop */}
+          <div className="order-2 lg:order-1 flex flex-col gap-6 pt-4">
             <p style={{ fontSize: '1.125rem', lineHeight: '1.75', color: '#a1a1aa' }}>
               Thoughts on process, technology, and building better systems.
             </p>
             <Link
               href="/articles"
-              style={{ 
-                display: 'inline-block', 
-                fontSize: '1rem', 
+              style={{
+                display: 'inline-block',
+                fontSize: '1rem',
                 color: '#a1a1aa',
                 textDecoration: 'none',
                 transition: 'color 0.2s'
@@ -51,6 +38,19 @@ export function LatestArticles({ articles }: LatestArticlesProps) {
               View all →
             </Link>
           </div>
+
+          {/* Headline - Right on Desktop */}
+          <div className="order-1 lg:order-2 flex justify-start lg:justify-end">
+            <h2 style={{
+              fontSize: 'clamp(3rem, 10vw, 8rem)',
+              fontWeight: 700,
+              lineHeight: '0.95',
+              letterSpacing: '-0.03em',
+              color: '#ffffff'
+            }}>
+              Articles
+            </h2>
+          </div>
         </div>
         <div style={{ display: 'grid', gap: '3rem', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))' }}>
           {articles.map((article) => (
@@ -58,9 +58,9 @@ export function LatestArticles({ articles }: LatestArticlesProps) {
               <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: '#ffffff' }}>
                 {article.title}
               </h3>
-              <p style={{ 
-                fontSize: '1rem', 
-                lineHeight: '1.75', 
+              <p style={{
+                fontSize: '1rem',
+                lineHeight: '1.75',
                 color: '#a1a1aa',
                 display: '-webkit-box',
                 WebkitLineClamp: 4,
@@ -80,9 +80,9 @@ export function LatestArticles({ articles }: LatestArticlesProps) {
               )}
               <Link
                 href={`/articles/${article.slug}`}
-                style={{ 
-                  display: 'inline-block', 
-                  fontSize: '1rem', 
+                style={{
+                  display: 'inline-block',
+                  fontSize: '1rem',
                   color: '#d4d4d8',
                   textDecoration: 'none',
                   paddingTop: '0.5rem',

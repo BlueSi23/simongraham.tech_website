@@ -1,299 +1,281 @@
-/* Glitch Page Transition Effects - Performance Optimized */
+/* Glitch Page Transition Effects - Performance Optimized & Tamed (1/4 Intensity) */
 
-.glitch-active {
-  animation: glitch-main 0.75s ease-in-out;
-  /* GPU optimization hints */
-  will-change: transform, filter;
-  transform: translateZ(0);
+/* Mobile: Simple fade transition (no intensive effects) */
+.mobile-fade-active {
+  animation: mobile-fade 0.3s ease-in-out;
 }
 
-/* Target specific elements instead of all (*) for better performance */
-.glitch-active h1,
-.glitch-active h2,
-.glitch-active h3,
-.glitch-active p,
-.glitch-active a,
-.glitch-active button,
-.glitch-active div {
-  animation: glitch-elements 0.75s ease-in-out;
-}
+@keyframes mobile-fade {
+  0% {
+    opacity: 0.85;
+  }
 
-/* Main chromatic aberration - reduced opacity for performance */
-.glitch-active::after {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 9998;
-  mix-blend-mode: screen;
-  animation: chromatic-pulse 0.75s ease-in-out;
-}
-
-@keyframes chromatic-pulse {
-
-  0%,
   100% {
-    background: transparent;
-  }
-
-  20% {
-    background: radial-gradient(circle at 30% 50%, rgba(255, 0, 0, 0.07), transparent 60%),
-      radial-gradient(circle at 70% 50%, rgba(0, 255, 255, 0.07), transparent 60%);
-  }
-
-  50% {
-    background: radial-gradient(circle at 60% 30%, rgba(255, 0, 0, 0.1), transparent 50%),
-      radial-gradient(circle at 40% 70%, rgba(0, 255, 255, 0.1), transparent 50%);
-  }
-
-  75% {
-    background: radial-gradient(circle at 50% 60%, rgba(255, 0, 0, 0.07), transparent 55%),
-      radial-gradient(circle at 50% 40%, rgba(0, 255, 255, 0.07), transparent 55%);
-  }
-}
-
-@keyframes glitch-main {
-
-  0%,
-  100% {
-    transform: translate(0);
     opacity: 1;
-    filter: none;
-  }
-
-  10% {
-    transform: translate(-3.3px, 1.3px) skew(0.33deg);
-    opacity: 0.93;
-    /* Reduced from 3+ layers to 2 */
-    filter: drop-shadow(2px 0 0 rgba(255, 0, 0, 0.4)) drop-shadow(-2px 0 0 rgba(0, 255, 255, 0.4));
-  }
-
-  20% {
-    transform: translate(2px, -2px) skew(-0.33deg);
-    opacity: 0.97;
-    filter: drop-shadow(-2.7px 0 0 rgba(255, 0, 0, 0.5)) drop-shadow(2.7px 0 0 rgba(0, 255, 255, 0.5));
-  }
-
-  30% {
-    transform: translate(2.7px, 0.7px) skew(0.67deg);
-    /* Removed blur, kept drop-shadow */
-    filter: drop-shadow(3.3px 0 0 rgba(255, 0, 0, 0.55)) drop-shadow(-3.3px 0 0 rgba(0, 255, 255, 0.55));
-  }
-
-  35% {
-    transform: translate(-1.3px, -2.7px) skew(-0.67deg);
-    /* Removed blur */
-    filter: drop-shadow(-4px 0 0 rgba(255, 0, 0, 0.6)) drop-shadow(4px 0 0 rgba(0, 255, 255, 0.6));
-  }
-
-  40% {
-    transform: translate(4px, 1.3px) skew(0.53deg);
-    opacity: 0.9;
-    /* Reduced to 3 layers max */
-    filter: drop-shadow(4.7px 0 0 rgba(255, 0, 0, 0.65)) drop-shadow(-4.7px 0 0 rgba(0, 255, 255, 0.65)) drop-shadow(0 2.7px 0 rgba(0, 255, 0, 0.3));
-  }
-
-  45% {
-    transform: translate(-2.7px, 2px) skew(-0.53deg);
-    /* Removed blur */
-    filter: drop-shadow(-5.3px 0 0 rgba(255, 0, 0, 0.7)) drop-shadow(5.3px 0 0 rgba(0, 255, 255, 0.7));
-  }
-
-  50% {
-    /* Removed scaleY for performance */
-    transform: translate(5.3px, -1.3px) skew(1deg);
-    opacity: 0.8;
-    /* Peak effect - minimal blur with 3 layers */
-    filter: blur(1px) drop-shadow(6.7px 0 0 rgba(255, 0, 0, 0.75)) drop-shadow(-6.7px 0 0 rgba(0, 255, 255, 0.75)) drop-shadow(0 3.3px 0 rgba(0, 255, 0, 0.4));
-  }
-
-  55% {
-    /* Removed scaleY */
-    transform: translate(-4px, 2.7px) skew(-0.8deg);
-    /* Removed blur */
-    filter: drop-shadow(-6px 0 0 rgba(255, 0, 0, 0.7)) drop-shadow(6px 0 0 rgba(0, 255, 255, 0.7));
-  }
-
-  60% {
-    transform: translate(3.3px, -2px) skew(0.6deg);
-    opacity: 0.87;
-    /* Removed blur */
-    filter: drop-shadow(4px 0 0 rgba(255, 0, 0, 0.55)) drop-shadow(-4px 0 0 rgba(0, 255, 255, 0.55));
-  }
-
-  70% {
-    transform: translate(-2px, 1.3px) skew(-0.4deg);
-    /* Removed blur */
-    filter: drop-shadow(-2.7px 0 0 rgba(255, 0, 0, 0.4)) drop-shadow(2.7px 0 0 rgba(0, 255, 255, 0.4));
-  }
-
-  80% {
-    transform: translate(1.3px, -0.7px) skew(0.2deg);
-    opacity: 0.93;
-    filter: drop-shadow(1.3px 0 0 rgba(255, 0, 0, 0.25)) drop-shadow(-1.3px 0 0 rgba(0, 255, 255, 0.25));
-  }
-
-  90% {
-    transform: translate(-0.7px, 0.7px);
-    opacity: 0.97;
-    filter: drop-shadow(0.7px 0 0 rgba(255, 0, 0, 0.1)) drop-shadow(-0.7px 0 0 rgba(0, 255, 255, 0.1));
   }
 }
 
-@keyframes glitch-elements {
-
-  0%,
-  100% {
-    clip-path: inset(0);
-    transform: translate(0);
+/* Desktop Only: Full glitch effects (≥1024px) */
+@media (min-width: 1024px) {
+  .glitch-active {
+    animation: glitch-main 0.75s ease-in-out;
+    /* GPU optimization hints */
+    will-change: transform, filter;
+    transform: translateZ(0);
   }
 
-  15% {
-    clip-path: inset(0 0 85% 0);
-    transform: translateX(-2px);
+  /* Target specific elements instead of all (*) for better performance */
+  .glitch-active h1,
+  .glitch-active h2,
+  .glitch-active h3,
+  .glitch-active p,
+  .glitch-active a,
+  .glitch-active button,
+  .glitch-active div {
+    animation: glitch-elements 0.75s ease-in-out;
   }
 
-  25% {
-    clip-path: inset(20% 0 60% 0);
-    transform: translateX(2.7px);
+  /* Main chromatic aberration - reduced opacity for performance */
+  .glitch-active::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9998;
+    mix-blend-mode: screen;
+    animation: chromatic-pulse 0.75s ease-in-out;
   }
 
-  35% {
-    clip-path: inset(40% 0 40% 0);
-    /* Removed scaleX */
-    transform: translateX(-3.3px);
+  @keyframes chromatic-pulse {
+
+    0%,
+    100% {
+      background: transparent;
+    }
+
+    20% {
+      background: radial-gradient(circle at 30% 50%, rgba(255, 0, 0, 0.07), transparent 60%),
+        radial-gradient(circle at 70% 50%, rgba(0, 255, 255, 0.07), transparent 60%);
+    }
+
+    50% {
+      background: radial-gradient(circle at 60% 30%, rgba(255, 0, 0, 0.1), transparent 50%),
+        radial-gradient(circle at 40% 70%, rgba(0, 255, 255, 0.1), transparent 50%);
+    }
+
+    75% {
+      background: radial-gradient(circle at 50% 60%, rgba(255, 0, 0, 0.07), transparent 55%),
+        radial-gradient(circle at 50% 40%, rgba(0, 255, 255, 0.07), transparent 55%);
+    }
   }
 
-  45% {
-    clip-path: inset(60% 0 20% 0);
-    /* Removed scaleX */
-    transform: translateX(4px);
+  /* Reduced intensity by 75% (values / 4) */
+  @keyframes glitch-main {
+
+    0%,
+    100% {
+      transform: translate(0);
+      opacity: 1;
+      filter: none;
+    }
+
+    10% {
+      transform: translate(-0.8px, 0.3px) skew(0.1deg);
+      opacity: 0.93;
+      filter: drop-shadow(0.5px 0 0 rgba(255, 0, 0, 0.4)) drop-shadow(-0.5px 0 0 rgba(0, 255, 255, 0.4));
+    }
+
+    20% {
+      transform: translate(0.5px, -0.5px) skew(-0.1deg);
+      opacity: 0.97;
+      filter: drop-shadow(-0.7px 0 0 rgba(255, 0, 0, 0.5)) drop-shadow(0.7px 0 0 rgba(0, 255, 255, 0.5));
+    }
+
+    30% {
+      transform: translate(0.7px, 0.2px) skew(0.17deg);
+      filter: drop-shadow(0.8px 0 0 rgba(255, 0, 0, 0.55)) drop-shadow(-0.8px 0 0 rgba(0, 255, 255, 0.55));
+    }
+
+    35% {
+      transform: translate(-0.3px, -0.7px) skew(-0.17deg);
+      filter: drop-shadow(-1px 0 0 rgba(255, 0, 0, 0.6)) drop-shadow(1px 0 0 rgba(0, 255, 255, 0.6));
+    }
+
+    40% {
+      transform: translate(1px, 0.3px) skew(0.13deg);
+      opacity: 0.9;
+      filter: drop-shadow(1.2px 0 0 rgba(255, 0, 0, 0.65)) drop-shadow(-1.2px 0 0 rgba(0, 255, 255, 0.65)) drop-shadow(0 0.7px 0 rgba(0, 255, 0, 0.3));
+    }
+
+    45% {
+      transform: translate(-0.7px, 0.5px) skew(-0.13deg);
+      filter: drop-shadow(-1.3px 0 0 rgba(255, 0, 0, 0.7)) drop-shadow(1.3px 0 0 rgba(0, 255, 255, 0.7));
+    }
+
+    50% {
+      transform: translate(1.3px, -0.3px) skew(0.25deg);
+      opacity: 0.8;
+      filter: blur(0px) drop-shadow(1.7px 0 0 rgba(255, 0, 0, 0.75)) drop-shadow(-1.7px 0 0 rgba(0, 255, 255, 0.75)) drop-shadow(0 0.8px 0 rgba(0, 255, 0, 0.4));
+    }
+
+    55% {
+      transform: translate(-1px, 0.7px) skew(-0.2deg);
+      filter: drop-shadow(-1.5px 0 0 rgba(255, 0, 0, 0.7)) drop-shadow(1.5px 0 0 rgba(0, 255, 255, 0.7));
+    }
+
+    60% {
+      transform: translate(0.8px, -0.5px) skew(0.15deg);
+      opacity: 0.87;
+      filter: drop-shadow(1px 0 0 rgba(255, 0, 0, 0.55)) drop-shadow(-1px 0 0 rgba(0, 255, 255, 0.55));
+    }
+
+    70% {
+      transform: translate(-0.5px, 0.3px) skew(-0.1deg);
+      filter: drop-shadow(-0.7px 0 0 rgba(255, 0, 0, 0.4)) drop-shadow(0.7px 0 0 rgba(0, 255, 255, 0.4));
+    }
+
+    80% {
+      transform: translate(0.3px, -0.2px) skew(0.05deg);
+      opacity: 0.93;
+      filter: drop-shadow(0.3px 0 0 rgba(255, 0, 0, 0.25)) drop-shadow(-0.3px 0 0 rgba(0, 255, 255, 0.25));
+    }
+
+    90% {
+      transform: translate(-0.2px, 0.2px);
+      opacity: 0.97;
+      filter: drop-shadow(0.2px 0 0 rgba(255, 0, 0, 0.1)) drop-shadow(-0.2px 0 0 rgba(0, 255, 255, 0.1));
+    }
   }
 
-  50% {
-    clip-path: inset(15% 0 15% 0);
-    /* Removed scaleY, reduced shadow complexity */
-    transform: translateX(-5.3px);
-    text-shadow:
-      2.5px 0 red,
-      -2.5px 0 cyan;
+  /* Reduced intensity by 75% */
+  @keyframes glitch-elements {
+
+    0%,
+    100% {
+      clip-path: inset(0);
+      transform: translate(0);
+    }
+
+    15% {
+      clip-path: inset(0 0 85% 0);
+      transform: translateX(-0.5px);
+    }
+
+    25% {
+      clip-path: inset(20% 0 60% 0);
+      transform: translateX(0.7px);
+    }
+
+    35% {
+      clip-path: inset(40% 0 40% 0);
+      transform: translateX(-0.8px);
+    }
+
+    45% {
+      clip-path: inset(60% 0 20% 0);
+      transform: translateX(1px);
+    }
+
+    50% {
+      clip-path: inset(15% 0 15% 0);
+      transform: translateX(-1.3px);
+      text-shadow: 0.6px 0 red, -0.6px 0 cyan;
+    }
+
+    55% {
+      clip-path: inset(30% 0 30% 0);
+      transform: translateX(1.2px);
+      text-shadow: -0.6px 0 red, 0.6px 0 cyan;
+    }
+
+    65% {
+      clip-path: inset(10% 0 70% 0);
+      transform: translateX(-0.7px);
+    }
+
+    75% {
+      clip-path: inset(50% 0 30% 0);
+      transform: translateX(0.5px);
+    }
+
+    85% {
+      clip-path: inset(5% 0 80% 0);
+      transform: translateX(-0.3px);
+    }
   }
 
-  55% {
-    clip-path: inset(30% 0 30% 0);
-    /* Removed scaleY */
-    transform: translateX(4.7px);
-    text-shadow:
-      -2.5px 0 red,
-      2.5px 0 cyan;
+  /* Reduced intensity by 75% */
+  .glitch-active h1,
+  .glitch-active h2,
+  .glitch-active h3,
+  .glitch-active p,
+  .glitch-active span,
+  .glitch-active a {
+    animation: rgb-shift-intense 0.75s ease-in-out;
   }
 
-  65% {
-    clip-path: inset(10% 0 70% 0);
-    transform: translateX(-2.7px);
+  @keyframes rgb-shift-intense {
+
+    0%,
+    90%,
+    100% {
+      text-shadow: none;
+    }
+
+    20% {
+      text-shadow: 0.7px 0 rgba(255, 0, 0, 0.6), -0.7px 0 rgba(0, 255, 255, 0.6);
+    }
+
+    35% {
+      text-shadow: -0.8px 0 rgba(255, 0, 0, 0.7), 0.8px 0 rgba(0, 255, 255, 0.7), 0 0.5px rgba(0, 255, 0, 0.5);
+    }
+
+    50% {
+      text-shadow: 1px 0 rgba(255, 0, 0, 0.8), -1px 0 rgba(0, 255, 255, 0.8), 0 0.7px rgba(0, 255, 0, 0.6);
+    }
+
+    65% {
+      text-shadow: -0.7px 0 rgba(255, 0, 0, 0.6), 0.7px 0 rgba(0, 255, 255, 0.6), 0 0.3px rgba(0, 255, 0, 0.4);
+    }
+
+    80% {
+      text-shadow: 0.3px 0 rgba(255, 0, 0, 0.35), -0.3px 0 rgba(0, 255, 255, 0.35);
+    }
   }
 
-  75% {
-    clip-path: inset(50% 0 30% 0);
-    transform: translateX(2px);
-  }
-
-  85% {
-    clip-path: inset(5% 0 80% 0);
-    transform: translateX(-1.3px);
-  }
-}
-
-/* Intense RGB Shift Effect - optimized */
-.glitch-active h1,
-.glitch-active h2,
-.glitch-active h3,
-.glitch-active p,
-.glitch-active span,
-.glitch-active a {
-  animation: rgb-shift-intense 0.75s ease-in-out;
-}
-
-@keyframes rgb-shift-intense {
-
-  0%,
-  90%,
-  100% {
-    text-shadow: none;
-  }
-
-  20% {
-    /* Reduced from 3 to 2 layers */
-    text-shadow:
-      2.7px 0 rgba(255, 0, 0, 0.6),
-      -2.7px 0 rgba(0, 255, 255, 0.6);
-  }
-
-  35% {
-    /* Reduced from 5 to 3 layers */
-    text-shadow:
-      -3.3px 0 rgba(255, 0, 0, 0.7),
-      3.3px 0 rgba(0, 255, 255, 0.7),
-      0 2px rgba(0, 255, 0, 0.5);
-  }
-
-  50% {
-    /* Reduced from 6 to 3 layers */
-    text-shadow:
-      4px 0 rgba(255, 0, 0, 0.8),
-      -4px 0 rgba(0, 255, 255, 0.8),
-      0 2.7px rgba(0, 255, 0, 0.6);
-  }
-
-  65% {
-    /* Reduced from 5 to 3 layers */
-    text-shadow:
-      -2.7px 0 rgba(255, 0, 0, 0.6),
-      2.7px 0 rgba(0, 255, 255, 0.6),
-      0 1.3px rgba(0, 255, 0, 0.4);
-  }
-
-  80% {
-    /* Reduced from 4 to 2 layers */
-    text-shadow:
-      1.3px 0 rgba(255, 0, 0, 0.35),
-      -1.3px 0 rgba(0, 255, 255, 0.35);
-  }
-}
-
-/* Scanline effect - reduced opacity for performance */
-.glitch-active::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: repeating-linear-gradient(0deg,
-      rgba(0, 0, 0, 0.05),
-      rgba(0, 0, 0, 0.05) 1px,
-      transparent 1px,
-      transparent 2px);
-  pointer-events: none;
-  z-index: 9999;
-  animation: scan 0.75s linear;
-  opacity: 0;
-}
-
-@keyframes scan {
-
-  0%,
-  90%,
-  100% {
+  /* Scanline effect - reduced opacity for performance */
+  .glitch-active::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(0deg,
+        rgba(0, 0, 0, 0.05),
+        rgba(0, 0, 0, 0.05) 1px,
+        transparent 1px,
+        transparent 2px);
+    pointer-events: none;
+    z-index: 9999;
+    animation: scan 0.75s linear;
     opacity: 0;
   }
 
-  40%,
-  60% {
-    /* Reduced from 0.33 to 0.2 */
-    opacity: 0.2;
+  @keyframes scan {
+
+    0%,
+    90%,
+    100% {
+      opacity: 0;
+    }
+
+    40%,
+    60% {
+      opacity: 0.2;
+    }
   }
 }

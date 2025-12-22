@@ -25,24 +25,31 @@ export function ServiceCards() {
     <section style={{ borderBottom: '1px solid rgba(39, 39, 42, 0.3)', paddingTop: '4rem', paddingBottom: '4rem' }}>
       <Container>
         {/* Header */}
-        <div style={{
-          marginBottom: '3rem',
-          display: 'grid',
-          gap: '2rem',
-          gridTemplateColumns: '1fr',
-          alignItems: 'start'
-        }}>
-          <h2 style={{
-            fontSize: 'clamp(2.5rem, 8vw, 6rem)',
-            fontWeight: 700,
-            lineHeight: '0.95',
-            letterSpacing: '-0.03em',
-            color: '#ffffff'
-          }}>
-            Services
-          </h2>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-            <p style={{ fontSize: '1.125rem', lineHeight: '1.75', color: '#a1a1aa' }}>
+        {/* Header */}
+        <div className="mb-12 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start">
+
+          {/* Headline - Left on Desktop */}
+          <div className="order-1 lg:order-1 flex justify-start">
+            <h2 style={{
+              fontSize: 'clamp(2.5rem, 8vw, 6rem)',
+              fontWeight: 700,
+              lineHeight: '0.95',
+              letterSpacing: '-0.03em',
+              color: '#ffffff'
+            }}>
+              Services
+            </h2>
+          </div>
+
+          {/* Description - Right on Desktop */}
+          <div className="order-2 lg:order-2 flex flex-col gap-6">
+            <p style={{
+              fontSize: 'clamp(1.25rem, 3vw, 2rem)',
+              fontWeight: 700,
+              lineHeight: '1.2',
+              letterSpacing: '-0.01em',
+              color: '#ffffff'
+            }}>
               Flexible engagements from early discovery to delivery support.
             </p>
           </div>

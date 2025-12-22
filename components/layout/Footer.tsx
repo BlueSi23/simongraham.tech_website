@@ -1,5 +1,7 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Container } from "./Container";
+import { HoverBoxLink } from "../ui/HoverBoxLink";
 
 export function Footer() {
   return (
@@ -17,24 +19,32 @@ export function Footer() {
       }}
     >
       <Container className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
-        <p>Simon Graham</p>
+        <div className="flex items-center gap-3">
+          <div className="relative w-8 h-8 opacity-80 hover:opacity-100 transition-opacity">
+            <Image
+              src="/images/sg-logo.png"
+              alt="Simon Graham Logo"
+              fill
+              className="object-contain"
+            />
+          </div>
+          <p className="font-medium tracking-tight text-zinc-400">Simon Graham</p>
+        </div>
         <div className="flex gap-4">
-          <Link
+          <HoverBoxLink
             href="mailto:enquiries@simongraham.tech"
             className="hover:text-zinc-300"
           >
             Email
-          </Link>
-          <Link
+          </HoverBoxLink>
+          <HoverBoxLink
             href="https://www.linkedin.com/in/s-graham/"
             className="hover:text-zinc-300"
           >
             LinkedIn
-          </Link>
+          </HoverBoxLink>
         </div>
       </Container>
     </footer>
   );
 }
-
-

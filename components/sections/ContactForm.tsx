@@ -113,7 +113,7 @@ export function ContactForm() {
           <p className="text-sm text-zinc-400">
             The best projects start with a clear sense of constraints, unknowns,
             and what &quot;good&quot; looks like for your team. A few sentences are
-            plenty—I&apos;ll follow up with questions.
+            plenty, I&apos;ll follow up with questions.
           </p>
         </div>
 
