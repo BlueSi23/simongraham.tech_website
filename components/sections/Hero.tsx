@@ -4,34 +4,34 @@ import { Container } from "../layout/Container";
 
 export function Hero() {
   return (
-    <section style={{ borderBottom: '1px solid rgba(39, 39, 42, 0.3)', paddingTop: '8rem', paddingBottom: '8rem' }}>
+    <section style={{ borderBottom: '1px solid rgba(39, 39, 42, 0.3)', paddingTop: '4rem', paddingBottom: '4rem' }}>
       <Container>
-        <div style={{ display: 'grid', gap: '4rem', gridTemplateColumns: '1fr 1.5fr', alignItems: 'start' }}>
-          {/* Left: Large Heading */}
+        <div style={{ display: 'grid', gap: '2rem', gridTemplateColumns: '1fr', alignItems: 'start' }}>
+          {/* Heading */}
           <div>
-            <h1 style={{ 
-              fontSize: 'clamp(3rem, 10vw, 8rem)', 
-              fontWeight: 700, 
-              lineHeight: '0.95', 
+            <h1 style={{
+              fontSize: 'clamp(2.5rem, 8vw, 6rem)',
+              fontWeight: 700,
+              lineHeight: '0.95',
               letterSpacing: '-0.03em',
               color: '#ffffff'
             }}>
               About
             </h1>
           </div>
-          
-          {/* Right: Description */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem', paddingTop: '1rem' }}>
-            <p style={{ 
-              fontSize: 'clamp(1.5rem, 4vw, 3rem)', 
-              fontWeight: 700, 
-              lineHeight: '1.1', 
+
+          {/* Description */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+            <p style={{
+              fontSize: 'clamp(1.25rem, 3vw, 2rem)',
+              fontWeight: 700,
+              lineHeight: '1.2',
               letterSpacing: '-0.01em',
               color: '#ffffff'
             }}>
               Bridging concept, code, and production for immersive experiences.
             </p>
-            <p style={{ 
+            <p style={{
               maxWidth: '42rem',
               fontSize: '1.125rem',
               lineHeight: '1.75',

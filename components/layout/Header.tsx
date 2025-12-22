@@ -25,21 +25,9 @@ export function Header() {
         display: 'flex',
         height: '4rem',
         alignItems: 'center',
-        justifyContent: 'space-between'
+        justifyContent: 'flex-end'
       }}>
-        <Link
-          href="/"
-          style={{
-            fontSize: '0.875rem',
-            fontWeight: 500,
-            letterSpacing: '-0.01em',
-            color: '#ffffff',
-            textDecoration: 'none'
-          }}
-        >
-          Creative Technologist
-        </Link>
-        <nav style={{ display: 'flex', gap: '2rem' }}>
+        <nav style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
           {navItems.map((item) => (
             <Link
               key={item.href}

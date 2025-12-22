@@ -31,13 +31,13 @@ export function ParticleBackground() {
     useEffect(() => {
         if (!mounted) return;
 
-        // Burst to 2000 particles
-        setParticleCount(2000);
+        // Burst to 500 particles (reduced for mobile performance)
+        setParticleCount(500);
 
         // Animate back down to 100 over 1 second
         const startTime = Date.now();
         const duration = 1000;
-        const startCount = 2000;
+        const startCount = 500;
         const endCount = 100;
 
         const animate = () => {
