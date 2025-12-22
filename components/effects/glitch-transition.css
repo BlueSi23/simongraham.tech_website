@@ -1,14 +1,24 @@
-/* Glitch Page Transition Effects with Heavy Chromatic Aberration */
+/* Glitch Page Transition Effects - Performance Optimized */
 
 .glitch-active {
   animation: glitch-main 0.75s ease-in-out;
+  /* GPU optimization hints */
+  will-change: transform, filter;
+  transform: translateZ(0);
 }
 
-.glitch-active * {
+/* Target specific elements instead of all (*) for better performance */
+.glitch-active h1,
+.glitch-active h2,
+.glitch-active h3,
+.glitch-active p,
+.glitch-active a,
+.glitch-active button,
+.glitch-active div {
   animation: glitch-elements 0.75s ease-in-out;
 }
 
-/* Main chromatic aberration on entire page */
+/* Main chromatic aberration - reduced opacity for performance */
 .glitch-active::after {
   content: '';
   position: fixed;
@@ -57,80 +67,79 @@
   10% {
     transform: translate(-3.3px, 1.3px) skew(0.33deg);
     opacity: 0.93;
-    filter:
-      drop-shadow(2px 0 0 rgba(255, 0, 0, 0.33)) drop-shadow(-2px 0 0 rgba(0, 255, 255, 0.33));
+    /* Reduced from 3+ layers to 2 */
+    filter: drop-shadow(2px 0 0 rgba(255, 0, 0, 0.4)) drop-shadow(-2px 0 0 rgba(0, 255, 255, 0.4));
   }
 
   20% {
     transform: translate(2px, -2px) skew(-0.33deg);
     opacity: 0.97;
-    filter:
-      drop-shadow(-2.7px 0 0 rgba(255, 0, 0, 0.4)) drop-shadow(2.7px 0 0 rgba(0, 255, 255, 0.4));
+    filter: drop-shadow(-2.7px 0 0 rgba(255, 0, 0, 0.5)) drop-shadow(2.7px 0 0 rgba(0, 255, 255, 0.5));
   }
 
   30% {
     transform: translate(2.7px, 0.7px) skew(0.67deg);
-    filter:
-      blur(0.7px) drop-shadow(3.3px 0 0 rgba(255, 0, 0, 0.47)) drop-shadow(-3.3px 0 0 rgba(0, 255, 255, 0.47));
+    /* Removed blur, kept drop-shadow */
+    filter: drop-shadow(3.3px 0 0 rgba(255, 0, 0, 0.55)) drop-shadow(-3.3px 0 0 rgba(0, 255, 255, 0.55));
   }
 
   35% {
     transform: translate(-1.3px, -2.7px) skew(-0.67deg);
-    filter:
-      blur(1.3px) drop-shadow(-4px 0 0 rgba(255, 0, 0, 0.53)) drop-shadow(4px 0 0 rgba(0, 255, 255, 0.53));
+    /* Removed blur */
+    filter: drop-shadow(-4px 0 0 rgba(255, 0, 0, 0.6)) drop-shadow(4px 0 0 rgba(0, 255, 255, 0.6));
   }
 
   40% {
     transform: translate(4px, 1.3px) skew(0.53deg);
     opacity: 0.9;
-    filter:
-      drop-shadow(4.7px 0 0 rgba(255, 0, 0, 0.6)) drop-shadow(-4.7px 0 0 rgba(0, 255, 255, 0.6)) drop-shadow(0 2.7px 0 rgba(0, 255, 0, 0.27));
+    /* Reduced to 3 layers max */
+    filter: drop-shadow(4.7px 0 0 rgba(255, 0, 0, 0.65)) drop-shadow(-4.7px 0 0 rgba(0, 255, 255, 0.65)) drop-shadow(0 2.7px 0 rgba(0, 255, 0, 0.3));
   }
 
   45% {
     transform: translate(-2.7px, 2px) skew(-0.53deg);
-    filter:
-      blur(2px) drop-shadow(-5.3px 0 0 rgba(255, 0, 0, 0.67)) drop-shadow(5.3px 0 0 rgba(0, 255, 255, 0.67));
+    /* Removed blur */
+    filter: drop-shadow(-5.3px 0 0 rgba(255, 0, 0, 0.7)) drop-shadow(5.3px 0 0 rgba(0, 255, 255, 0.7));
   }
 
   50% {
-    transform: translate(5.3px, -1.3px) skew(1deg) scaleY(0.99);
+    /* Removed scaleY for performance */
+    transform: translate(5.3px, -1.3px) skew(1deg);
     opacity: 0.8;
-    filter:
-      blur(2.7px) drop-shadow(6.7px 0 0 rgba(255, 0, 0, 0.67)) drop-shadow(-6.7px 0 0 rgba(0, 255, 255, 0.67)) drop-shadow(0 3.3px 0 rgba(0, 255, 0, 0.4));
+    /* Peak effect - minimal blur with 3 layers */
+    filter: blur(1px) drop-shadow(6.7px 0 0 rgba(255, 0, 0, 0.75)) drop-shadow(-6.7px 0 0 rgba(0, 255, 255, 0.75)) drop-shadow(0 3.3px 0 rgba(0, 255, 0, 0.4));
   }
 
   55% {
-    transform: translate(-4px, 2.7px) skew(-0.8deg) scaleY(1.01);
-    filter:
-      blur(2px) drop-shadow(-6px 0 0 rgba(255, 0, 0, 0.6)) drop-shadow(6px 0 0 rgba(0, 255, 255, 0.6));
+    /* Removed scaleY */
+    transform: translate(-4px, 2.7px) skew(-0.8deg);
+    /* Removed blur */
+    filter: drop-shadow(-6px 0 0 rgba(255, 0, 0, 0.7)) drop-shadow(6px 0 0 rgba(0, 255, 255, 0.7));
   }
 
   60% {
     transform: translate(3.3px, -2px) skew(0.6deg);
     opacity: 0.87;
-    filter:
-      blur(1.3px) drop-shadow(4px 0 0 rgba(255, 0, 0, 0.47)) drop-shadow(-4px 0 0 rgba(0, 255, 255, 0.47));
+    /* Removed blur */
+    filter: drop-shadow(4px 0 0 rgba(255, 0, 0, 0.55)) drop-shadow(-4px 0 0 rgba(0, 255, 255, 0.55));
   }
 
   70% {
     transform: translate(-2px, 1.3px) skew(-0.4deg);
-    filter:
-      blur(0.7px) drop-shadow(-2.7px 0 0 rgba(255, 0, 0, 0.33)) drop-shadow(2.7px 0 0 rgba(0, 255, 255, 0.33));
+    /* Removed blur */
+    filter: drop-shadow(-2.7px 0 0 rgba(255, 0, 0, 0.4)) drop-shadow(2.7px 0 0 rgba(0, 255, 255, 0.4));
   }
 
   80% {
     transform: translate(1.3px, -0.7px) skew(0.2deg);
     opacity: 0.93;
-    filter:
-      drop-shadow(1.3px 0 0 rgba(255, 0, 0, 0.2)) drop-shadow(-1.3px 0 0 rgba(0, 255, 255, 0.2));
+    filter: drop-shadow(1.3px 0 0 rgba(255, 0, 0, 0.25)) drop-shadow(-1.3px 0 0 rgba(0, 255, 255, 0.25));
   }
 
   90% {
     transform: translate(-0.7px, 0.7px);
     opacity: 0.97;
-    filter:
-      drop-shadow(0.7px 0 0 rgba(255, 0, 0, 0.07)) drop-shadow(-0.7px 0 0 rgba(0, 255, 255, 0.07));
+    filter: drop-shadow(0.7px 0 0 rgba(255, 0, 0, 0.1)) drop-shadow(-0.7px 0 0 rgba(0, 255, 255, 0.1));
   }
 }
 
@@ -154,32 +163,32 @@
 
   35% {
     clip-path: inset(40% 0 40% 0);
-    transform: translateX(-3.3px) scaleX(1.01);
+    /* Removed scaleX */
+    transform: translateX(-3.3px);
   }
 
   45% {
     clip-path: inset(60% 0 20% 0);
-    transform: translateX(4px) scaleX(0.99);
+    /* Removed scaleX */
+    transform: translateX(4px);
   }
 
   50% {
     clip-path: inset(15% 0 15% 0);
-    transform: translateX(-5.3px) scaleY(1.02);
+    /* Removed scaleY, reduced shadow complexity */
+    transform: translateX(-5.3px);
     text-shadow:
-      2px 0 red,
-      -2px 0 cyan,
-      4px 0 rgba(255, 0, 0, 0.33),
-      -4px 0 rgba(0, 255, 255, 0.33);
+      2.5px 0 red,
+      -2.5px 0 cyan;
   }
 
   55% {
     clip-path: inset(30% 0 30% 0);
-    transform: translateX(4.7px) scaleY(0.98);
+    /* Removed scaleY */
+    transform: translateX(4.7px);
     text-shadow:
-      -2px 0 red,
-      2px 0 cyan,
-      -4px 0 rgba(255, 0, 0, 0.33),
-      4px 0 rgba(0, 255, 255, 0.33);
+      -2.5px 0 red,
+      2.5px 0 cyan;
   }
 
   65% {
@@ -198,7 +207,7 @@
   }
 }
 
-/* Intense RGB Shift Effect for all text */
+/* Intense RGB Shift Effect - optimized */
 .glitch-active h1,
 .glitch-active h2,
 .glitch-active h3,
@@ -217,50 +226,45 @@
   }
 
   20% {
+    /* Reduced from 3 to 2 layers */
     text-shadow:
-      2.7px 0 rgba(255, 0, 0, 0.5),
-      -2.7px 0 rgba(0, 255, 255, 0.5),
-      1.3px 0 rgba(255, 0, 255, 0.33);
+      2.7px 0 rgba(255, 0, 0, 0.6),
+      -2.7px 0 rgba(0, 255, 255, 0.6);
   }
 
   35% {
+    /* Reduced from 5 to 3 layers */
     text-shadow:
-      -3.3px 0 rgba(255, 0, 0, 0.6),
-      3.3px 0 rgba(0, 255, 255, 0.6),
-      0 2px rgba(0, 255, 0, 0.4),
-      5.3px 0 rgba(255, 0, 0, 0.27),
-      -5.3px 0 rgba(0, 255, 255, 0.27);
+      -3.3px 0 rgba(255, 0, 0, 0.7),
+      3.3px 0 rgba(0, 255, 255, 0.7),
+      0 2px rgba(0, 255, 0, 0.5);
   }
 
   50% {
+    /* Reduced from 6 to 3 layers */
     text-shadow:
-      4px 0 rgba(255, 0, 0, 0.67),
-      -4px 0 rgba(0, 255, 255, 0.67),
-      0 2.7px rgba(0, 255, 0, 0.47),
-      6.7px 0 rgba(255, 0, 0, 0.33),
-      -6.7px 0 rgba(0, 255, 255, 0.33),
-      2px 2px rgba(255, 0, 255, 0.33);
+      4px 0 rgba(255, 0, 0, 0.8),
+      -4px 0 rgba(0, 255, 255, 0.8),
+      0 2.7px rgba(0, 255, 0, 0.6);
   }
 
   65% {
+    /* Reduced from 5 to 3 layers */
     text-shadow:
-      -2.7px 0 rgba(255, 0, 0, 0.53),
-      2.7px 0 rgba(0, 255, 255, 0.53),
-      0 1.3px rgba(0, 255, 0, 0.33),
-      4.7px 0 rgba(255, 0, 0, 0.2),
-      -4.7px 0 rgba(0, 255, 255, 0.2);
+      -2.7px 0 rgba(255, 0, 0, 0.6),
+      2.7px 0 rgba(0, 255, 255, 0.6),
+      0 1.3px rgba(0, 255, 0, 0.4);
   }
 
   80% {
+    /* Reduced from 4 to 2 layers */
     text-shadow:
-      1.3px 0 rgba(255, 0, 0, 0.27),
-      -1.3px 0 rgba(0, 255, 255, 0.27),
-      2.7px 0 rgba(255, 0, 0, 0.13),
-      -2.7px 0 rgba(0, 255, 255, 0.13);
+      1.3px 0 rgba(255, 0, 0, 0.35),
+      -1.3px 0 rgba(0, 255, 255, 0.35);
   }
 }
 
-/* Scanline effect */
+/* Scanline effect - reduced opacity for performance */
 .glitch-active::before {
   content: '';
   position: fixed;
@@ -269,8 +273,8 @@
   width: 100%;
   height: 100%;
   background: repeating-linear-gradient(0deg,
-      rgba(0, 0, 0, 0.1),
-      rgba(0, 0, 0, 0.1) 1px,
+      rgba(0, 0, 0, 0.05),
+      rgba(0, 0, 0, 0.05) 1px,
       transparent 1px,
       transparent 2px);
   pointer-events: none;
@@ -289,6 +293,7 @@
 
   40%,
   60% {
-    opacity: 0.33;
+    /* Reduced from 0.33 to 0.2 */
+    opacity: 0.2;
   }
 }
