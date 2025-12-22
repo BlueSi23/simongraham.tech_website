@@ -29,7 +29,7 @@ export function Hero() {
               letterSpacing: '-0.01em',
               color: '#ffffff'
             }}>
-              Bridging concept, code, and production for immersive experiences.
+              Bridging concept, code, hardware, content and production for immersive experiences.
             </p>
             <p style={{
               maxWidth: '42rem',
