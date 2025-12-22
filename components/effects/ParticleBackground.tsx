@@ -96,17 +96,12 @@ export function ParticleBackground() {
                 height: '100%',
                 zIndex: -1,
                 filter: chromaticActive
-                    ? `
-                        drop-shadow(6px 0 0 rgba(255, 0, 0, 1))
-                        drop-shadow(-6px 0 0 rgba(0, 255, 255, 1))
-                        drop-shadow(0 4px 0 rgba(0, 255, 0, 0.8))
-                        drop-shadow(0 -4px 0 rgba(255, 0, 255, 0.8))
-                        drop-shadow(4px 4px 0 rgba(255, 255, 0, 0.7))
-                        drop-shadow(-4px -4px 0 rgba(0, 255, 255, 0.9))
-                        blur(0.5px)
-                    `
+                    ? `drop-shadow(3px 0 0 rgba(255, 0, 0, 0.6)) drop-shadow(-3px 0 0 rgba(0, 255, 255, 0.6))`
                     : 'none',
-                transition: 'filter 0.15s ease-out',
+                transition: 'filter 0.2s ease-in-out',
+                /* GPU optimization */
+                willChange: chromaticActive ? 'filter' : 'auto',
+                transform: 'translateZ(0)',
             }}
         >
             <Particles
