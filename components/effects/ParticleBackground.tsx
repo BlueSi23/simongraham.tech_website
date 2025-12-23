@@ -6,7 +6,10 @@ import Particles, { initParticlesEngine } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim";
 import type { Engine } from "@tsparticles/engine";
 
+import { useTransition } from "./TransitionContext";
+
 export function ParticleBackground() {
+    const { isTransitioning } = useTransition();
     const [init, setInit] = useState(false);
     const [particleCount, setParticleCount] = useState(100);
     const [mounted, setMounted] = useState(false);
@@ -46,7 +49,13 @@ export function ParticleBackground() {
             return;
         }
 
-        // Desktop: Burst to 75 particles
+        // Transitions: Reduce to 25% of settling count (40 * 0.25 = 10)
+        if (isTransitioning) {
+            setParticleCount(10);
+            return;
+        }
+
+        // Desktop Default: Burst to 75 particles then settle
         setParticleCount(75);
 
         // Animate back down to 40 over 1 second
@@ -70,7 +79,7 @@ export function ParticleBackground() {
         };
 
         requestAnimationFrame(animate);
-    }, [pathname, mounted, isDesktop]);
+    }, [pathname, mounted, isDesktop, isTransitioning]);
 
     // Chromatic aberration effect - Desktop only
     useEffect(() => {

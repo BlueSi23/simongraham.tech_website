@@ -4,6 +4,7 @@ import { Header } from "../components/layout/Header";
 import { Footer } from "../components/layout/Footer";
 import { GlitchTransition } from "../components/effects/GlitchTransition";
 import { ParticleBackground } from "../components/effects/ParticleBackground";
+import { TransitionProvider } from "../components/effects/TransitionContext";
 
 export const metadata = {
   title: "Creative Technologist – Portfolio",
@@ -25,16 +26,18 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         padding: 0,
         position: 'relative',
       }}>
-        {/* Text-aware particle background with chromatic aberration */}
-        <ParticleBackground />
+        <TransitionProvider>
+          {/* Text-aware particle background with chromatic aberration */}
+          <ParticleBackground />
 
-        <GlitchTransition>
-          <div style={{ position: 'relative', zIndex: 1 }}>
-            <Header />
-            <main>{children}</main>
-            <Footer />
-          </div>
-        </GlitchTransition>
+          <GlitchTransition>
+            <div style={{ position: 'relative', zIndex: 1 }}>
+              <Header />
+              <main>{children}</main>
+              <Footer />
+            </div>
+          </GlitchTransition>
+        </TransitionProvider>
       </body>
     </html>
   );
