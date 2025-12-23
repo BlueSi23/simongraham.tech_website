@@ -30,8 +30,8 @@ export default function ExperimentsPage({ experiments }: ExperimentsPageProps) {
           </p>
         </div>
 
-        {/* LEFT COLUMN: Grid */}
-        <div className="lg:w-2/3 relative">
+        {/* LEFT COLUMN: Grid - immune to spectrum effects */}
+        <div className="lg:w-2/3 relative spectrum-immune">
           <div className="grid grid-cols-1 gap-6">
             {experiments.map((exp) => (
               <div
@@ -49,11 +49,11 @@ export default function ExperimentsPage({ experiments }: ExperimentsPageProps) {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity" />
 
-                <div className="absolute bottom-0 left-0 p-8 w-full">
-                  <p className="text-xs text-white font-mono tracking-wider uppercase mb-2">
+                <div className="absolute bottom-0 left-0 p-4 md:p-8 w-full flex flex-row items-baseline gap-3">
+                  <p className="text-[10px] md:text-xs text-white/80 font-mono tracking-wider uppercase whitespace-nowrap">
                     {exp.category}
                   </p>
-                  <h3 className="text-3xl font-light text-white tracking-tight">
+                  <h3 className="text-lg md:text-3xl font-light text-white tracking-tight truncate">
                     {exp.title}
                   </h3>
                 </div>

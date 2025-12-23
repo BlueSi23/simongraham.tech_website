@@ -40,46 +40,16 @@ export function ParticleBackground() {
     }, []);
 
     // Page transition effect - specific behavior for desktop vs mobile
+    // Simplified: Constant particle count to prevent "jumping"
     useEffect(() => {
         if (!mounted) return;
 
-        // Mobile optimization: constant low particle count, no burst
         if (!isDesktop) {
             setParticleCount(30);
-            return;
+        } else {
+            setParticleCount(50); // Constant count for desktop
         }
-
-        // Transitions: Reduce to 25% of settling count (40 * 0.25 = 10)
-        if (isTransitioning) {
-            setParticleCount(10);
-            return;
-        }
-
-        // Desktop Default: Burst to 75 particles then settle
-        setParticleCount(75);
-
-        // Animate back down to 40 over 1 second
-        const startTime = Date.now();
-        const duration = 1000;
-        const startCount = 75;
-        const endCount = 40;
-
-        const animate = () => {
-            const elapsed = Date.now() - startTime;
-            const progress = Math.min(elapsed / duration, 1);
-
-            const easeOut = 1 - Math.pow(1 - progress, 3);
-            const currentCount = Math.round(startCount - (startCount - endCount) * easeOut);
-
-            setParticleCount(currentCount);
-
-            if (progress < 1) {
-                requestAnimationFrame(animate);
-            }
-        };
-
-        requestAnimationFrame(animate);
-    }, [pathname, mounted, isDesktop, isTransitioning]);
+    }, [mounted, isDesktop]);
 
     // Chromatic aberration effect - Desktop only
     useEffect(() => {
@@ -119,14 +89,19 @@ export function ParticleBackground() {
                 width: '100%',
                 height: '100%',
                 zIndex: -1,
+                /* Constant visibility */
+                opacity: 1,
+                /* Chromatic aberration filter logic */
                 filter: chromaticActive
                     ? `drop-shadow(5px 0 0 rgba(255, 0, 0, 0.8)) drop-shadow(-5px 0 0 rgba(0, 255, 255, 0.8)) drop-shadow(0 3px 0 rgba(0, 255, 0, 0.5))`
                     : 'none',
                 transition: 'filter 0.2s ease-in-out',
                 /* GPU optimization */
-                willChange: chromaticActive ? 'filter' : 'auto',
+                willChange: isTransitioning ? 'filter, transform' : (chromaticActive ? 'filter' : 'auto'),
                 transform: 'translateZ(0)',
             }}
+            /* Apply spectrum-block animation from global CSS when transitioning */
+            className={isTransitioning ? "glitch-active-particles" : ""}
         >
             <Particles
                 id="particles-textaware"

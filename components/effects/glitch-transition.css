@@ -1,6 +1,6 @@
-/* Glitch Page Transition Effects - Refined & Smoother */
+/* Spectrum Chromatic Separation Transition */
 
-/* Mobile: Simple fade transition (no intensive effects) */
+/* Mobile: Simple fade transition */
 .mobile-fade-active {
   animation: mobile-fade 0.3s ease-in-out;
 }
@@ -15,203 +15,145 @@
   }
 }
 
-/* Desktop Only: Full glitch effects (≥1024px) */
+/* Desktop Only: Full Spectrum Effects (≥1024px) */
 @media (min-width: 1024px) {
+
+  /* Container doesn't animate, just needs to not clip */
   .glitch-active {
-    animation: glitch-main 0.75s ease-out;
-    /* GPU optimization hints */
-    will-change: transform, filter;
-    transform: translateZ(0);
+    transform-style: preserve-3d;
   }
 
-  /* Target specific elements instead of all (*) for better performance */
-  .glitch-active h1,
-  .glitch-active h2,
-  .glitch-active h3,
-  .glitch-active p,
-  .glitch-active a,
-  .glitch-active button,
-  .glitch-active div {
-    animation: glitch-elements 0.75s ease-out;
-  }
-
-  /* Streak Effect: Animated rainbow bar across screen */
-  .glitch-active::after {
-    content: '';
-    position: fixed;
-    top: 50%;
-    /* Center vertically or move around */
-    left: -50%;
-    width: 200%;
-    height: 10px;
-    /* Thin streak */
-    background: linear-gradient(90deg,
-        transparent,
-        rgba(255, 0, 0, 0.8),
-        rgba(255, 255, 0, 0.8),
-        rgba(0, 255, 0, 0.8),
-        rgba(0, 255, 255, 0.8),
-        rgba(0, 0, 255, 0.8),
-        rgba(255, 0, 255, 0.8),
-        transparent);
-    transform: translateY(-50%) rotate(-5deg);
-    /* Slight angle */
-    z-index: 9999;
-    pointer-events: none;
-    mix-blend-mode: overlay;
-    /* or screen/plus-lighter */
-    filter: blur(4px);
-    animation: streak-animation 0.75s ease-in-out;
-  }
-
-  @keyframes streak-animation {
-    0% {
-      transform: translateY(-50%) translateX(-100%) rotate(-5deg);
-      opacity: 0;
-    }
-
-    10% {
-      opacity: 1;
-    }
-
-    100% {
-      transform: translateY(-50%) translateX(100%) rotate(-5deg);
-      opacity: 0;
-    }
-  }
-
-  /* Much smoother, less "jittery" movement */
-  @keyframes glitch-main {
-
-    0% {
-      transform: translate(0);
-      opacity: 1;
-      filter: none;
-    }
-
-    20% {
-      transform: translate(-0.5px, 0.2px) skew(0.05deg);
-      opacity: 0.98;
-      filter: drop-shadow(0.5px 0 0 rgba(255, 0, 0, 0.2)) drop-shadow(-0.5px 0 0 rgba(0, 255, 255, 0.2));
-    }
-
-    40% {
-      transform: translate(0.5px, -0.2px) skew(-0.05deg);
-      opacity: 0.95;
-    }
-
-    60% {
-      transform: translate(-0.3px, 0.1px);
-      opacity: 0.98;
-      filter: drop-shadow(1px 0 0 rgba(255, 0, 0, 0.3)) drop-shadow(-1px 0 0 rgba(0, 255, 255, 0.3));
-    }
-
-    80% {
-      transform: translate(0.2px, -0.1px);
-      opacity: 0.99;
-    }
-
-    100% {
-      transform: translate(0);
-      opacity: 1;
-      filter: none;
-    }
-  }
-
-  /* Reduced intensity clipping */
-  @keyframes glitch-elements {
-
-    0%,
-    100% {
-      clip-path: inset(0);
-      transform: translate(0);
-    }
-
-    20% {
-      clip-path: inset(10% 0 85% 0);
-      transform: translateX(-0.5px);
-    }
-
-    40% {
-      clip-path: inset(85% 0 10% 0);
-      transform: translateX(0.5px);
-    }
-
-    60% {
-      clip-path: inset(40% 0 40% 0);
-      transform: translateX(-0.3px);
-    }
-
-    80% {
-      clip-path: inset(0);
-      transform: translateX(0);
-    }
-  }
-
+  /* 
+     Apply spectrum separation to text elements.
+     Using text-shadow is performant for typography.
+  */
   .glitch-active h1,
   .glitch-active h2,
   .glitch-active h3,
   .glitch-active p,
   .glitch-active span,
-  .glitch-active a {
-    animation: rgb-shift-progressive 0.75s ease-out forwards;
+  .glitch-active a,
+  .glitch-active button {
+    animation: spectrum-text 0.75s cubic-bezier(0.2, 0.0, 0.2, 1) forwards;
+    will-change: text-shadow, transform;
+    transform: translateZ(0);
+    /* Force layer promotion */
+    backface-visibility: hidden;
   }
 
-  /* Progressive separation over time */
-  @keyframes rgb-shift-progressive {
+  /* 
+     Apply spectrum separation to blocks/images/containers.
+     Using filter: drop-shadow is more expensive but works on non-text.
+     Plus Ramping Pixelation (Block Distortion) 
+  */
+  .glitch-active img,
+  .glitch-active svg,
+  .glitch-active .card-content,
+  .glitch-active-particles {
+    animation:
+      spectrum-block 0.75s cubic-bezier(0.2, 0.0, 0.2, 1) forwards,
+      pixelate-ramp 0.75s steps(2) forwards;
+    /* Steps creates the 'block' feel */
+    will-change: filter, transform, clip-path;
+    transform: translateZ(0);
+    /* Force layer promotion */
+    backface-visibility: hidden;
+  }
+
+  @keyframes spectrum-text {
     0% {
-      text-shadow: none;
+      text-shadow: 0 0 transparent;
+      opacity: 1;
+      transform: scale(1) translateZ(0);
     }
 
-    20% {
-      text-shadow: 0.5px 0 rgba(255, 0, 0, 0.4), -0.5px 0 rgba(0, 255, 255, 0.4);
+    50% {
+      /* Peak separation - Intensified 3x */
+      text-shadow:
+        -12px 0 rgba(255, 0, 0, 0.5),
+        /* Red Left */
+        12px 0 rgba(0, 255, 255, 0.5),
+        /* Cyan Right */
+        -6px 0 rgba(0, 255, 0, 0.3),
+        /* Green subtle left */
+        6px 0 rgba(0, 0, 255, 0.3);
+      /* Blue subtle right */
+      opacity: 0.8;
+      transform: scale(1.02) translateZ(0);
+      /* Slight pulse */
+      filter: blur(1px);
     }
 
     100% {
-      /* Separates further over time, fading slightly */
-      text-shadow: 2px 0 rgba(255, 0, 0, 0), -2px 0 rgba(0, 255, 255, 0);
-      /* Note: Ending at 0 opacity to seamlessly blend back to normal state, 
-         but the 'drift' will transform from tight to wide */
+      text-shadow: 0 0 transparent;
+      opacity: 1;
+      transform: scale(1) translateZ(0);
+      filter: none;
+    }
+  }
+
+  @keyframes spectrum-block {
+    0% {
+      filter: drop-shadow(0 0 0 transparent);
+      transform: translate3d(0, 0, 0);
     }
 
-    /* Let's try a sustained separation that holds then snaps back */
     50% {
-      text-shadow: 1.5px 0 rgba(255, 0, 0, 0.6), -1.5px 0 rgba(0, 255, 255, 0.6);
+      /* Peak separation for blocks - Intensified 3x */
+      filter:
+        drop-shadow(-12px 0 0 rgba(255, 0, 0, 0.4)) drop-shadow(12px 0 0 rgba(0, 255, 255, 0.4));
+      transform: translate3d(0, 0, 0);
+    }
+
+    100% {
+      filter: drop-shadow(0 0 0 transparent);
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  /* Ramping Pixelation / Block Distortion */
+  @keyframes pixelate-ramp {
+    0% {
+      clip-path: inset(0 0 0 0);
+    }
+
+    10% {
+      clip-path: inset(10% 0 10% 0);
+      /* Gentle trim */
+    }
+
+    30% {
+      clip-path: inset(30% 0 40% 0);
+      /* Heavy block cut */
+    }
+
+    50% {
+      clip-path: inset(40% 0 40% 0);
+      /* Peak blockiness (narrow strip) */
+    }
+
+    70% {
+      clip-path: inset(30% 0 20% 0);
+      /* Reversing */
     }
 
     90% {
-      text-shadow: 3px 0 rgba(255, 0, 0, 0.3), -3px 0 rgba(0, 255, 255, 0.3);
+      clip-path: inset(10% 0 5% 0);
     }
-  }
 
-  /* Scanline effect - subtle */
-  .glitch-active::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: repeating-linear-gradient(0deg,
-        rgba(0, 0, 0, 0.03),
-        rgba(0, 0, 0, 0.03) 1px,
-        transparent 1px,
-        transparent 2px);
-    pointer-events: none;
-    z-index: 9999;
-    animation: scan 0.75s linear;
-    opacity: 0;
-  }
-
-  @keyframes scan {
-
-    0%,
     100% {
-      opacity: 0;
+      clip-path: inset(0 0 0 0);
     }
+  }
 
-    50% {
-      opacity: 0.15;
-    }
+  /* EXCLUSION RULE: Prevent spectrum effects on specific containers */
+  .glitch-active .spectrum-immune,
+  .glitch-active .spectrum-immune * {
+    animation: none !important;
+    transform: none !important;
+    filter: none !important;
+    opacity: 1 !important;
+    text-shadow: none !important;
+    clip-path: none !important;
   }
 }

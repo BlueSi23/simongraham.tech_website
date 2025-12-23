@@ -32,8 +32,8 @@ export function Header() {
         scrollbarWidth: 'none',
         whiteSpace: 'nowrap'
       }}>
-        <nav style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }} className="w-full flex-nowrap">
-          <Link href="/" className="relative w-8 h-8 opacity-80 hover:opacity-100 transition-opacity flex-shrink-0 -mt-1 border border-white/40 sm:border-transparent p-1 sm:p-0">
+        <nav className="w-full flex-nowrap flex items-center gap-2 sm:gap-6">
+          <Link href="/" className="relative w-8 h-8 opacity-80 hover:opacity-100 transition-opacity flex-shrink-0 border border-white/40 sm:border-transparent p-1 sm:p-0">
             <Image
               src="/images/sg-logo.png"
               alt="Home"
