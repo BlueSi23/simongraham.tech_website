@@ -1,50 +1,30 @@
 [
   {
-    "id": "exp-001",
-    "slug": "generative-audio-engine",
-    "title": "Generative Audio Engine",
-    "category": "Creative Coding",
-    "description": "Real-time soundscapes driven by environmental data inputs.",
-    "longDescription": "An exploration into sonifying weather patterns using the Web Audio API. This experiment connects to live weather APIs to modulate oscillator parameters, creating an ever-changing ambient soundscape that reflects current conditions in Tokyo.",
-    "image": "/images/experiments/audio-vis.png",
+    "id": "mwltrp55t",
+    "slug": "opkit-patchbay",
+    "title": "OpKit Patchbay",
+    "category": "Tools / AV Engineering",
+    "description": "A modular, node-based engineering platform for AV professionals. Connect tools, analyze signals, and generate calibration assets in a unified visual workflow.",
+    "longDescription": "OpKit Patchbay is a visual patchbay for the web, allowing users to chain together functional nodes into custom workflows.",
+    "image": "/uploads/1767220711397-chrome_0hhgewlwmp.png",
     "tags": [
-      "Web Audio API",
-      "React",
-      "Data Visualization"
+      "React Flow",
+      "Tooling",
+      "AV",
+      "Engineering"
     ],
     "featured": true,
-    "layout": []
-  },
-  {
-    "id": "exp-002",
-    "slug": "smart-home-dashboard",
-    "title": "eInk Home Dashboard",
-    "category": "Hardware",
-    "description": "Low-power definition of home automation control.",
-    "longDescription": "A custom ESP32-based controller driving a 7.5-inch eInk display. Serves as a central hub for home assistant, showing transit times, weather, and energy usage with weeks of battery life.",
-    "image": "/images/experiments/eink.png",
-    "tags": [
-      "ESP32",
-      "C++",
-      "3D Printing"
-    ],
-    "featured": true,
-    "layout": []
-  },
-  {
-    "id": "exp-003",
-    "slug": "obsidian-agent",
-    "title": "Obsidian Research Agent",
-    "category": "AI / Tooling",
-    "description": "LLM-powered plugin for semantic search within personal notes.",
-    "longDescription": "A plugin for Obsidian that indexes local markdown vaults into a vector database, allowing for semantic queries and 'chat with your notes' functionality completely offline using local LLMs.",
-    "image": "/images/experiments/obsidian.png",
-    "tags": [
-      "TypeScript",
-      "Obsidian API",
-      "Local LLM"
-    ],
-    "featured": false,
-    "layout": []
+    "layout": [
+      {
+        "id": "layout-1",
+        "type": "text",
+        "content": "### The Problem\nVideo technicians and AV professionals often juggle disconnected tools for calibration, analysis, and asset generation. Calculating pixel densities, generating test patterns, and verifying signal flows usually requires switching between multiple single-purpose apps.\n\n### The Solution\n**OpKit Patchbay** is a \"visual patchbay\" for the web. Built on **React Flow**, it allows users to chain together functional nodes—Generators, Analyzers, and Calibration tools—into custom workflows."
+      },
+      {
+        "id": "layout-2",
+        "type": "text",
+        "content": "### Key Features\n\n*   **Node-Based Workflow**: Drag-and-drop interface to connect tools dynamically.\n*   **Signal Generation**: Create custom QR slates, projection grids, and calibration templates.\n*   **Professional Analysis**: Tools for pixel density (PPI/Pitch), viewing distance calculations, and blend region visualization.\n*   **Live Output**: Real-time rendering of test patterns and templates for on-site system verification.\n\nIt’s currently in **BETA**, bridging the gap between calculation and creation for live event production.\n\n[Launch OpKit Patchbay](https://www.opkit-patchbay.com/)"
+      }
+    ]
   }
 ]
