@@ -9,13 +9,32 @@ let db: admin.firestore.Firestore | null = null;
 
 if (!admin.apps.length) {
     try {
+        let credential;
+        // Check for Env Var (Vercel Production/Preview)
+        if (process.env.FIREBASE_SERVICE_ACCOUNT_KEY) {
+            try {
+                // Parse the JSON string (handle potential escaped newlines)
+                const serviceAccount = JSON.parse(
+                    process.env.FIREBASE_SERVICE_ACCOUNT_KEY
+                );
+                credential = admin.credential.cert(serviceAccount);
+            } catch (e) {
+                console.error("Failed to parse FIREBASE_SERVICE_ACCOUNT_KEY", e);
+                // Fallback (might fail if this was the only method intended)
+                credential = admin.credential.applicationDefault();
+            }
+        } else {
+            // Local Development (relying on GOOGLE_APPLICATION_CREDENTIALS file path)
+            credential = admin.credential.applicationDefault();
+        }
+
         admin.initializeApp({
-            credential: admin.credential.applicationDefault(),
+            credential,
         });
         db = admin.firestore();
         console.log("Firebase Admin initialized successfully");
     } catch (error) {
-        console.warn("Firebase Admin failed to initialize. Dynamic features (Contact, Availability) may not work.", error);
+        console.warn("Firebase Admin failed to initialize. Dynamic features (Contact, Availability, Experiments) may not work.", error);
         db = null;
     }
 } else {
