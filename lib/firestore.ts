@@ -166,46 +166,87 @@ export async function getAvailabilityTokenByToken(
     } as AvailabilityToken;
 }
 
-// --- Experiments (Connected to Static Data) ---
+// --- Experiments (Firestore Implementation) ---
 import { Experiment } from "./experiments-data";
-import {
-    getExperiments,
-    getFeaturedExperiments as getFeatured,
-    getExperimentBySlug as getBySlug,
-    getRelatedExperiments as getRelated
-} from "./experiments-server";
 
-export async function getFeaturedExperiments(limit: number = 3): Promise<any[]> {
-    const featured = getFeatured(limit);
-    return featured.map(e => ({
-        ...e,
-        thumbnail: e.image,
-        excerpt: e.description
-    }));
+export async function getExperiments(): Promise<Experiment[]> {
+    if (!db) return [];
+    try {
+        const snapshot = await db.collection("experiments").get();
+        return snapshot.docs.map(doc => doc.data() as Experiment);
+    } catch (error) {
+        console.error("Error getting experiments:", error);
+        return [];
+    }
 }
 
+export async function getExperimentBySlug(slug: string): Promise<Experiment | null> {
+    if (!db) return null;
+    try {
+        const snapshot = await db.collection("experiments").where("slug", "==", slug).limit(1).get();
+        if (snapshot.empty) return null;
+        return snapshot.docs[0].data() as Experiment;
+    } catch (error) {
+        console.error("Error getting experiment by slug:", error);
+        return null;
+    }
+}
+
+export async function getFeaturedExperiments(limit: number = 3): Promise<Experiment[]> {
+    if (!db) return [];
+    try {
+        const snapshot = await db.collection("experiments")
+            .where("featured", "==", true)
+            .limit(limit)
+            .get();
+        return snapshot.docs.map(doc => doc.data() as Experiment);
+    } catch (error) {
+        console.error("Error getting featured experiments:", error);
+        return [];
+    }
+}
+
+export async function getRelatedExperiments(slug: string, tags: string[] = [], limit: number = 3): Promise<Experiment[]> {
+    if (!db) return [];
+    // Firestore array-contains-any is limited, so we fetch all and filter or use basic query
+    // Simple implementation: fetch all (small dataset) and filter
+    try {
+        const all = await getExperiments();
+        return all
+            .filter(e => e.slug !== slug && e.tags?.some(t => tags.includes(t)))
+            .slice(0, limit);
+    } catch (error) {
+        console.error("Error getting related experiments:", error);
+        return [];
+    }
+}
+
+export async function saveExperiment(experiment: Experiment): Promise<boolean> {
+    if (!db) return false;
+    try {
+        await db.collection("experiments").doc(experiment.id).set(experiment);
+        return true;
+    } catch (error) {
+        console.error("Error saving experiment:", error);
+        return false;
+    }
+}
+
+export async function deleteExperiment(id: string): Promise<boolean> {
+    if (!db) return false;
+    try {
+        await db.collection("experiments").doc(id).delete();
+        return true;
+    } catch (error) {
+        console.error("Error deleting experiment:", error);
+        return false;
+    }
+}
+
+// For compatibility with some UI components that expect 'thumbnail' instead of 'image'
 export async function getAllExperiments(): Promise<any[]> {
-    const experiments = getExperiments();
+    const experiments = await getExperiments();
     return experiments.map(e => ({
-        ...e,
-        thumbnail: e.image,
-        excerpt: e.description
-    }));
-}
-
-export async function getExperimentBySlug(slug: string): Promise<any | null> {
-    const exp = getBySlug(slug);
-    if (!exp) return null;
-    return {
-        ...exp,
-        thumbnail: exp.image,
-        excerpt: exp.description
-    };
-}
-
-export async function getRelatedExperiments(tags: string[], slug: string, limit: number = 3): Promise<any[]> {
-    const related = getRelated(slug, tags, limit);
-    return related.map(e => ({
         ...e,
         thumbnail: e.image,
         excerpt: e.description

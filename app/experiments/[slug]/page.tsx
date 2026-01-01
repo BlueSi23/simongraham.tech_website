@@ -8,14 +8,14 @@ import {
   CardHeader,
   CardTitle,
 } from "../../../components/ui/card";
-import { getExperimentBySlug, getRelatedExperiments, getExperiments } from "../../../lib/experiments-server";
+import { getExperimentBySlug, getRelatedExperiments, getExperiments } from "../../../lib/firestore";
 
 interface ExperimentDetailPageProps {
   params: Promise<{ slug: string }>;
 }
 
 export async function generateStaticParams() {
-  const experiments = getExperiments();
+  const experiments = await getExperiments();
   return experiments.map((experiment) => ({
     slug: experiment.slug,
   }));
@@ -26,14 +26,14 @@ export const dynamic = "force-dynamic";
 
 export default async function ExperimentDetailPage(props: ExperimentDetailPageProps) {
   const params = await props.params;
-  const experiment = getExperimentBySlug(params.slug);
+  const experiment = await getExperimentBySlug(params.slug);
 
   if (!experiment) {
     notFound();
   }
 
   // Calculate related experiments
-  const related = getRelatedExperiments(experiment.slug, experiment.tags);
+  const related = await getRelatedExperiments(experiment.slug, experiment.tags);
 
   return (
     <div className="py-10 sm:py-14">

@@ -1,5 +1,5 @@
 import ExperimentsPageClient from "./ExperimentsClient";
-import { getExperiments } from "../../lib/experiments-server";
+import { getExperiments } from "../../lib/firestore";
 
 export const dynamic = "force-dynamic"; // Ensure fresh data on every request for CMS updates
 
