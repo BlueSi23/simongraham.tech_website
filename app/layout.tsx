@@ -6,10 +6,37 @@ import { GlitchTransition } from "../components/effects/GlitchTransition";
 import { ParticleBackground } from "../components/effects/ParticleBackground";
 import { TransitionProvider } from "../components/effects/TransitionContext";
 
-export const metadata = {
-  title: "Creative Technologist – Portfolio",
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  metadataBase: new URL("https://www.simongraham.tech"),
+  title: "Simon Graham | Creative Technologist",
   description:
-    "Creative technologist portfolio showcasing experiments, articles, and availability.",
+    "Creative technologist portfolio showcasing experiments, articles, and availability. Bridging concept, code, hardware, content and production.",
+  openGraph: {
+    title: "Simon Graham | Creative Technologist",
+    description:
+      "Creative technologist portfolio showcasing experiments, articles, and availability. Bridging concept, code, hardware, content and production.",
+    url: "https://www.simongraham.tech",
+    siteName: "Simon Graham",
+    images: [
+      {
+        url: "/uploads/1766442486282-01_oblvn_light_table_ui_09.jpg", // Default image
+        width: 1200,
+        height: 630,
+        alt: "Simon Graham - Creative Technologist Portfolio",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Simon Graham | Creative Technologist",
+    description:
+      "Creative technologist portfolio showcasing experiments, articles, and availability.",
+    images: ["/uploads/1766442486282-01_oblvn_light_table_ui_09.jpg"],
+  },
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
