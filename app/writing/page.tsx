@@ -40,8 +40,8 @@ export default async function WritingPage() {
         <Container className="pt-32 pb-20 min-h-screen">
             <div className="flex flex-col lg:flex-row-reverse lg:justify-between gap-12 lg:gap-24">
                 {/* RIGHT COLUMN: Headline */}
-                <div className="lg:w-1/3 text-right">
-                    <h1 className="text-4xl md:text-5xl lg:text-7xl font-light tracking-tight text-white mb-6 sticky top-32">
+                <div className="lg:w-1/3 text-right sticky top-32 self-start">
+                    <h1 className="text-4xl md:text-5xl lg:text-5xl font-semibold tracking-tight text-white mb-6">
                         Writing
                     </h1>
                 </div>

@@ -4,7 +4,7 @@
     "slug": "opkit-patchbay",
     "title": "OpKit Patchbay",
     "category": "Tools / AV Engineering",
-    "description": "A modular, node-based engineering platform for AV professionals. Connect tools, analyze signals, and generate calibration assets in a unified visual workflow.",
+    "description": "A modular, node-based engineering platform for AV professionals. Connect tools, analyse signals, and generate calibration assets in a unified visual workflow.",
     "longDescription": "OpKit Patchbay is a visual patchbay for the web, allowing users to chain together functional nodes into custom workflows.",
     "image": "/uploads/1767220711397-chrome_0hhgewlwmp.png",
     "tags": [
