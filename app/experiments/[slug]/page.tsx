@@ -21,8 +21,8 @@ export async function generateStaticParams() {
   }));
 }
 
-// export const revalidate = 60;
-// export const dynamic = "force-dynamic";
+export const revalidate = 0;
+export const dynamic = "force-dynamic";
 
 export default async function ExperimentDetailPage(props: ExperimentDetailPageProps) {
   const params = await props.params;
