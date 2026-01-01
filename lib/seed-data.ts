@@ -1,0 +1,32 @@
+import { Experiment } from "./experiments-data";
+
+export const INITIAL_EXPERIMENTS: Experiment[] = [
+    {
+        "id": "mwltrp55t",
+        "slug": "opkit-patchbay",
+        "title": "OpKit Patchbay",
+        "category": "Tools / AV Engineering",
+        "description": "A modular, node-based engineering platform for AV professionals. Connect tools, analyse signals, and generate calibration assets in a unified visual workflow.",
+        "longDescription": "OpKit Patchbay is a visual patchbay for the web, allowing users to chain together functional nodes into custom workflows.",
+        "image": "/uploads/1767220711397-chrome_0hhgewlwmp.png",
+        "tags": [
+            "React Flow",
+            "Tooling",
+            "AV",
+            "Engineering"
+        ],
+        "featured": true,
+        "layout": [
+            {
+                "id": "layout-1",
+                "type": "text",
+                "content": "// The Problem\nWearing my video technician and AV system design hat, I often juggled disconnected tools for calibration, analysis, and asset generation when planning and setting up testing on a project. Calculating pixel densities, generating test patterns, and verifying signal flows usually required switching between multiple single-purpose apps, copying and pasting assets and values between each one.\n\n// My Solution\n'OpKit Patchbay' is a node based workflow toolkit for the web. Built on 'React Flow', it allows users to chain together functional nodes into custom saveable and sharable workflows."
+            },
+            {
+                "id": "layout-2",
+                "type": "text",
+                "content": "### Key Features\n\n*  Node-Based Workflow: Drag-and-drop interface to connect tools dynamically.\n*  Signal Generation: Create custom QR slates, projection grids, and calibration templates.\n*  Professional Analysis: Tools for pixel density (PPI/Pitch), viewing distance calculations, and blend region visualization.\n*  Live Output: Real-time rendering of test patterns and templates for on-site system verification and real-world feature identification using the systems video outputs.\n\nIt’s currently in BETA, with an aim to develop further over time and productise workflow and creation for immersive productions.\n\n[Launch OpKit Patchbay](https://www.opkit-patchbay.com/)"
+            }
+        ]
+    }
+];
