@@ -2,7 +2,7 @@
 
 import { Container } from "../../components/layout/Container";
 import { motion, AnimatePresence } from "framer-motion";
-import { useState, ReactNode } from "react";
+import { useState, ReactNode, Fragment } from "react";
 import Image from "next/image";
 import { X } from "lucide-react";
 
@@ -221,13 +221,17 @@ const parseInline = (text: string): ReactNode => {
   while ((match = linkRegex.exec(text)) !== null) {
     // Add text before match (parsed for bold)
     if (match.index > lastIndex) {
-      parts.push(parseBold(text.substring(lastIndex, match.index)));
+      parts.push(
+        <Fragment key={`text-${lastIndex}`}>
+          {parseBold(text.substring(lastIndex, match.index))}
+        </Fragment>
+      );
     }
 
     // Add link
     parts.push(
       <a
-        key={match.index}
+        key={`link-${match.index}`}
         href={match[2]}
         target="_blank"
         rel="noopener noreferrer"
@@ -243,7 +247,11 @@ const parseInline = (text: string): ReactNode => {
 
   // Add remaining text
   if (lastIndex < text.length) {
-    parts.push(parseBold(text.substring(lastIndex)));
+    parts.push(
+      <Fragment key={`text-${lastIndex}`}>
+        {parseBold(text.substring(lastIndex))}
+      </Fragment>
+    );
   }
 
   return parts.length > 0 ? <>{parts}</> : parseBold(text);
