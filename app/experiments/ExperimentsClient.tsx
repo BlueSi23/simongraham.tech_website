@@ -2,9 +2,8 @@
 
 import { Container } from "../../components/layout/Container";
 import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useState, ReactNode } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { X } from "lucide-react";
 
 import { Experiment } from "../../lib/experiments-data";
@@ -47,7 +46,7 @@ export default function ExperimentsPage({ experiments }: ExperimentsPageProps) {
                   priority
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity" />
+                <div className="absolute inset-0 bg-gradient-to-r from-black via-black/50 to-transparent opacity-90 transition-opacity" />
 
                 <div className="absolute bottom-0 left-0 p-4 md:p-8 w-full flex flex-row items-baseline gap-3">
                   <p className="text-[10px] md:text-xs text-white/80 font-mono tracking-wider uppercase whitespace-nowrap">
@@ -130,9 +129,7 @@ export default function ExperimentsPage({ experiments }: ExperimentsPageProps) {
                           selectedExperiment.layout.map((block) => (
                             <div key={block.id}>
                               {block.type === "text" && (
-                                <p className="whitespace-pre-line leading-loose">
-                                  {block.content}
-                                </p>
+                                <MarkdownText content={block.content} />
                               )}
                               {block.type === "image" && (
                                 <div className="relative w-full aspect-video rounded-lg overflow-hidden border border-zinc-800">
@@ -147,9 +144,7 @@ export default function ExperimentsPage({ experiments }: ExperimentsPageProps) {
                             </div>
                           ))
                         ) : (
-                          <p className="whitespace-pre-line leading-loose">
-                            {selectedExperiment.longDescription}
-                          </p>
+                          <MarkdownText content={selectedExperiment.longDescription} />
                         )}
 
                         {/* Details Footer */}
@@ -173,3 +168,105 @@ export default function ExperimentsPage({ experiments }: ExperimentsPageProps) {
     </Container>
   );
 }
+
+// -----------------------------------------------------------------------------
+// Markdown Helper Component
+// -----------------------------------------------------------------------------
+
+const MarkdownText = ({ content }: { content: string }) => {
+  if (!content) return null;
+
+  const lines = content.split('\n');
+
+  return (
+    <div className="space-y-1">
+      {lines.map((line, i) => {
+        const trimmed = line.trim();
+
+        // Headers: ### Title
+        if (trimmed.startsWith('### ')) {
+          return <h3 key={i} className="text-xl md:text-2xl font-light text-white mt-8 mb-4">{parseInline(trimmed.replace(/^###\s+/, ''))}</h3>;
+        }
+
+        // List items: * Item or - Item
+        if (trimmed.startsWith('* ') || trimmed.startsWith('- ')) {
+          return (
+            <div key={i} className="flex gap-3 ml-2 mb-2 items-start">
+              <span className="text-zinc-500 mt-2 text-[8px]">●</span>
+              <div className="text-zinc-300 leading-relaxed flex-1">{parseInline(trimmed.replace(/^[\*\-]\s+/, ''))}</div>
+            </div>
+          );
+        }
+
+        // Empty lines - simple spacer
+        if (!trimmed) {
+          return <div key={i} className="h-4" />;
+        }
+
+        // Regular paragraphs
+        return <div key={i} className="text-zinc-400 leading-loose">{parseInline(line)}</div>;
+      })}
+    </div>
+  );
+};
+
+// Helper: Parse inline markdown (Links and Bold)
+const parseInline = (text: string): ReactNode => {
+  // 1. Split by links: [text](url)
+  const linkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
+  const parts: ReactNode[] = [];
+  let lastIndex = 0;
+  let match;
+
+  while ((match = linkRegex.exec(text)) !== null) {
+    // Add text before match (parsed for bold)
+    if (match.index > lastIndex) {
+      parts.push(parseBold(text.substring(lastIndex, match.index)));
+    }
+
+    // Add link
+    parts.push(
+      <a
+        key={match.index}
+        href={match[2]}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-white border-b border-white/30 hover:border-white transition-colors pb-0.5 cursor-pointer z-50 relative"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {parseBold(match[1])}
+      </a>
+    );
+
+    lastIndex = match.index + match[0].length;
+  }
+
+  // Add remaining text
+  if (lastIndex < text.length) {
+    parts.push(parseBold(text.substring(lastIndex)));
+  }
+
+  return parts.length > 0 ? <>{parts}</> : parseBold(text);
+};
+
+// Helper: Parse bold text (**text**)
+const parseBold = (text: string): ReactNode => {
+  const boldRegex = /\*\*([^*]+)\*\*/g;
+  const parts: ReactNode[] = [];
+  let lastIndex = 0;
+  let match;
+
+  while ((match = boldRegex.exec(text)) !== null) {
+    if (match.index > lastIndex) {
+      parts.push(text.substring(lastIndex, match.index));
+    }
+    parts.push(<strong key={match.index} className="text-zinc-200 font-medium">{match[1]}</strong>);
+    lastIndex = match.index + match[0].length;
+  }
+
+  if (lastIndex < text.length) {
+    parts.push(text.substring(lastIndex));
+  }
+
+  return parts.length > 0 ? <>{parts}</> : <>{text}</>;
+};

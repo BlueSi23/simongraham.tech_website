@@ -18,12 +18,12 @@
       {
         "id": "layout-1",
         "type": "text",
-        "content": "### The Problem\nVideo technicians and AV professionals often juggle disconnected tools for calibration, analysis, and asset generation. Calculating pixel densities, generating test patterns, and verifying signal flows usually requires switching between multiple single-purpose apps.\n\n### The Solution\n**OpKit Patchbay** is a \"visual patchbay\" for the web. Built on **React Flow**, it allows users to chain together functional nodes—Generators, Analyzers, and Calibration tools—into custom workflows."
+        "content": "// The Problem\nWearing my video technician and AV system design hat, I often juggled disconnected tools for calibration, analysis, and asset generation when planning and setting up testing on a project. Calculating pixel densities, generating test patterns, and verifying signal flows usually required switching between multiple single-purpose apps, copying and pasting assets and values between each one.\n\n// My Solution\n'OpKit Patchbay' is a node based workflow toolkit for the web. Built on 'React Flow', it allows users to chain together functional nodes; Generators, Analysers, and Calibration tools into custom saveable and sharable workflows."
       },
       {
         "id": "layout-2",
         "type": "text",
-        "content": "### Key Features\n\n*   **Node-Based Workflow**: Drag-and-drop interface to connect tools dynamically.\n*   **Signal Generation**: Create custom QR slates, projection grids, and calibration templates.\n*   **Professional Analysis**: Tools for pixel density (PPI/Pitch), viewing distance calculations, and blend region visualization.\n*   **Live Output**: Real-time rendering of test patterns and templates for on-site system verification.\n\nIt’s currently in **BETA**, bridging the gap between calculation and creation for live event production.\n\n[Launch OpKit Patchbay](https://www.opkit-patchbay.com/)"
+        "content": "### Key Features\n\n*  Node-Based Workflow: Drag-and-drop interface to connect tools dynamically.\n*  Signal Generation: Create custom QR slates, projection grids, and calibration templates.\n*  Professional Analysis: Tools for pixel density (PPI/Pitch), viewing distance calculations, and blend region visualization.\n*  Live Output: Real-time rendering of test patterns and templates for on-site system verification and real-world feature identification using the systems video outputs.\n\nIt’s currently in BETA, with an aim to develop further over time and productise workflow and creation for immersive productions.\n\n[Launch OpKit Patchbay](https://www.opkit-patchbay.com/)"
       }
     ]
   }
