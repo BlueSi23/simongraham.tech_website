@@ -8,14 +8,21 @@ import {
   CardHeader,
   CardTitle,
 } from "../../../components/ui/card";
-import { getExperimentBySlug, getRelatedExperiments } from "../../../lib/experiments-server";
+import { getExperimentBySlug, getRelatedExperiments, getExperiments } from "../../../lib/experiments-server";
 
 interface ExperimentDetailPageProps {
   params: Promise<{ slug: string }>;
 }
 
-export const revalidate = 60;
-export const dynamic = "force-dynamic";
+export async function generateStaticParams() {
+  const experiments = getExperiments();
+  return experiments.map((experiment) => ({
+    slug: experiment.slug,
+  }));
+}
+
+// export const revalidate = 60;
+// export const dynamic = "force-dynamic";
 
 export default async function ExperimentDetailPage(props: ExperimentDetailPageProps) {
   const params = await props.params;
