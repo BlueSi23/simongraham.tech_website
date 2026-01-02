@@ -6,42 +6,52 @@ import * as admin from "firebase-admin";
 
 // --- Firebase Admin Setup ---
 let db: admin.firestore.Firestore | null = null;
+let initError: string | null = null;
 
 if (!admin.apps.length) {
     try {
         let credential;
-        // Check for Env Var (Vercel Production/Preview)
-        if (process.env.FIREBASE_SERVICE_ACCOUNT_KEY) {
+        const envKey = process.env.FIREBASE_SERVICE_ACCOUNT_KEY;
+
+        console.log("Firestore Init: Checking credentials. Env Key present?", !!envKey);
+
+        if (envKey) {
             try {
-                // Parse the JSON string (handle potential escaped newlines)
-                const serviceAccount = JSON.parse(
-                    process.env.FIREBASE_SERVICE_ACCOUNT_KEY
-                );
+                // Parse the JSON string
+                const serviceAccount = JSON.parse(envKey);
                 credential = admin.credential.cert(serviceAccount);
-            } catch (e) {
-                console.error("Failed to parse FIREBASE_SERVICE_ACCOUNT_KEY", e);
-                // Fallback (might fail if this was the only method intended)
-                credential = admin.credential.applicationDefault();
+                console.log("Firestore Init: Successfully parsed service account.");
+            } catch (e: any) {
+                console.error("Firestore Init: Failed to parse FIREBASE_SERVICE_ACCOUNT_KEY", e);
+                throw new Error(`Invalid FIREBASE_SERVICE_ACCOUNT_KEY JSON: ${e.message}`);
             }
         } else {
-            // Local Development (relying on GOOGLE_APPLICATION_CREDENTIALS file path)
+            // Local Development or Missing Config
+            if (process.env.NODE_ENV === 'production') {
+                console.warn("Firestore Init: FIREBASE_SERVICE_ACCOUNT_KEY is missing in production!");
+            }
+            // Fallback to applicationDefault (works locally with GOOGLE_APPLICATION_CREDENTIALS)
             credential = admin.credential.applicationDefault();
         }
 
         admin.initializeApp({
             credential,
         });
+
         db = admin.firestore();
-        console.log("Firebase Admin initialized successfully");
-    } catch (error) {
-        console.warn("Firebase Admin failed to initialize. Dynamic features (Contact, Availability, Experiments) may not work.", error);
+        console.log("Firestore: Admin initialized successfully");
+
+    } catch (error: any) {
+        console.error("Firestore: Admin initialization failed.", error);
+        initError = error.message || String(error);
         db = null;
     }
 } else {
     try {
         db = admin.firestore();
-    } catch (error) {
-        console.warn("Failed to get Firestore instance", error);
+    } catch (error: any) {
+        console.warn("Firestore: Failed to get existing Firestore instance", error);
+        initError = error.message;
         db = null;
     }
 }
@@ -241,7 +251,7 @@ export async function getRelatedExperiments(slug: string, tags: string[] = [], l
 }
 
 export async function saveExperiment(experiment: Experiment): Promise<{ success: boolean; error?: string }> {
-    if (!db) return { success: false, error: "Firestore not initialized" };
+    if (!db) return { success: false, error: `Firestore not initialized: ${initError || "Unknown error"}` };
     try {
         await db.collection("experiments").doc(experiment.id).set(experiment);
         return { success: true };
