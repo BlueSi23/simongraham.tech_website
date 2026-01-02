@@ -31,38 +31,44 @@ export default function ExperimentsPage({ experiments }: ExperimentsPageProps) {
 
         {/* LEFT COLUMN: Grid - immune to spectrum effects */}
         <div className="lg:w-2/3 relative spectrum-immune">
-          <div className="grid grid-cols-1 gap-6">
-            {experiments.map((exp) => (
-              <div
-                key={exp.id}
-                onClick={() => setSelectedId(exp.id)}
-                className={`relative w-full aspect-[16/2] cursor-pointer overflow-hidden rounded-sm bg-zinc-900 group ${selectedId && selectedId !== exp.id ? "grayscale opacity-30" : ""
-                  } transition-all duration-500 border border-zinc-800 hover:border-zinc-600`}
-              >
-                <Image
-                  src={exp.image}
-                  alt={exp.title}
-                  fill
-                  priority
-                  className="object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-r from-black via-black/50 to-transparent opacity-90 transition-opacity" />
+          {experiments.length === 0 ? (
+            <div className="p-12 text-zinc-500 border border-zinc-800 border-dashed rounded-lg text-center">
+              No experiments found. CMS content might be missing.
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 gap-6">
+              {experiments.map((exp) => (
+                <div
+                  key={exp.id}
+                  onClick={() => setSelectedId(exp.id)}
+                  className={`relative w-full aspect-[16/2] cursor-pointer overflow-hidden rounded-sm bg-zinc-900 group ${selectedId && selectedId !== exp.id ? "grayscale opacity-30" : ""
+                    } transition-all duration-500 border border-zinc-800 hover:border-zinc-600`}
+                >
+                  <Image
+                    src={exp.image}
+                    alt={exp.title}
+                    fill
+                    priority
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-r from-black via-black/50 to-transparent opacity-90 transition-opacity" />
 
-                <div className="absolute bottom-0 inset-x-0 p-4 md:p-8 flex items-baseline gap-6 pointer-events-none">
-                  <div className="flex-1 text-right">
-                    <p className="text-[10px] md:text-xs text-white/80 font-mono tracking-wider uppercase whitespace-nowrap">
-                      {exp.category}
-                    </p>
-                  </div>
-                  <div className="flex-1 text-left overflow-hidden">
-                    <h3 className="text-lg md:text-3xl font-light text-white tracking-tight truncate">
-                      {exp.title}
-                    </h3>
+                  <div className="absolute bottom-0 inset-x-0 p-4 md:p-8 grid grid-cols-2 gap-6 items-baseline pointer-events-none">
+                    <div className="text-right">
+                      <p className="text-[10px] md:text-xs text-white/80 font-mono tracking-wider uppercase whitespace-nowrap">
+                        {exp.category}
+                      </p>
+                    </div>
+                    <div className="text-left overflow-hidden">
+                      <h3 className="text-lg md:text-3xl font-light text-white tracking-tight truncate">
+                        {exp.title}
+                      </h3>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
 
           {/* OVERLAY - FIXED POSITION, MAXIMIZED */}
           <AnimatePresence>

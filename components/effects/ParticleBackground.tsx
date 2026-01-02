@@ -1,12 +1,30 @@
-'use client';
+"use client";
 
-import { useEffect, useState, useRef, useMemo } from "react";
+import { useEffect, useState, useRef, useMemo, memo } from "react";
 import { usePathname } from "next/navigation";
 import Particles, { initParticlesEngine } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim";
 import type { Engine } from "@tsparticles/engine";
-
 import { useTransition } from "./TransitionContext";
+
+// Isolated component to prevent re-renders when parent state (chromaticActive) changes
+const StableParticles = memo(({ options }: { options: any }) => {
+    return (
+        <Particles
+            id="particles-textaware"
+            style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+            }}
+            options={options}
+        />
+    );
+});
+
+StableParticles.displayName = "StableParticles";
 
 export function ParticleBackground() {
     const { isTransitioning } = useTransition();
@@ -15,7 +33,6 @@ export function ParticleBackground() {
     const [mounted, setMounted] = useState(false);
     const [chromaticActive, setChromaticActive] = useState(false);
     const [isDesktop, setIsDesktop] = useState(true);
-    const pathname = usePathname();
     const canvasRef = useRef<HTMLDivElement>(null);
 
     // Ensure component is mounted on client
@@ -123,6 +140,10 @@ export function ParticleBackground() {
                 repulse: {
                     distance: 150,
                     duration: 0.4,
+                    easing: "ease-out-quad",
+                    factor: 1,
+                    speed: 1,
+                    maxSpeed: 50
                 },
                 bubble: {
                     distance: 100,
@@ -133,29 +154,15 @@ export function ParticleBackground() {
                 attract: {
                     distance: 200,
                     duration: 0.4,
+                    easing: "ease-out-quad",
+                    factor: 1,
+                    speed: 1,
+                    maxSpeed: 50
                 },
             },
         },
         detectRetina: true,
     }), [particleCount]);
-
-    // We need to update the particle count dynamically without recreating the options object if possible.
-    // However, tsparticles options are usually static.
-    // If we want to change density, we usually DO need to re-init.
-    // BUT the 'glitch' effect is the issue. Glitch changes 'chromaticActive', which forces re-render.
-    // Ideally 'options' should NOT depend on 'chromaticActive'.
-
-    // In the original code, 'options' used 'particleCount'.
-    // 'particleCount' changes only on Resize.
-    // 'chromaticActive' changes on timer.
-
-    // So we should memoize options based on 'particleCount'.
-    // const options = useMemo(() => ({ ... value: particleCount ... }), [particleCount]);
-
-    // If we do that, toggling 'chromaticActive' (which triggers re-render) will see the SAME 'options' reference.
-    // And thus Particles WON'T re-init.
-
-    // So useMemo is the correct solution.
 
     if (!init || !mounted) {
         return null;
@@ -181,19 +188,7 @@ export function ParticleBackground() {
             }}
             className={isTransitioning ? "glitch-active-particles" : ""}
         >
-            <Particles
-                id="particles-textaware"
-                style={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    width: '100%',
-                    height: '100%',
-                }}
-                options={options}
-            />
+            <StableParticles options={options} />
         </div>
     );
 }
-
-
