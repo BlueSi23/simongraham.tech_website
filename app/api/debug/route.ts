@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
-import { getFirestoreStatus } from "../../lib/firestore";
+import { getFirestoreStatus } from "../../../lib/firestore";
 
 export async function GET() {
     const cwd = process.cwd();
