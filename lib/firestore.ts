@@ -55,6 +55,16 @@ if (!admin.apps.length) {
         db = null;
     }
 }
+}
+
+export function getFirestoreStatus() {
+    return {
+        initialized: !!db,
+        apps: admin.apps.length,
+        initError,
+        envKeyLength: process.env.FIREBASE_SERVICE_ACCOUNT_KEY?.length || 0
+    };
+}
 
 // --- Articles (FileSystem Implementation) ---
 const articlesDirectory = path.join(process.cwd(), "content/articles");
