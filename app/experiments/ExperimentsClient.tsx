@@ -65,6 +65,19 @@ export default function ExperimentsPage({ experiments }: ExperimentsPageProps) {
                       maskMode: 'luminance',
                       WebkitMaskMode: 'luminance'
                     } as any} />
+                    {/* Second layer for darker fade */}
+                    <div className="absolute inset-0 bg-black pointer-events-none transition-opacity duration-500 group-hover:opacity-70" style={{
+                      maskImage: `url('/masks/hex-luma.png')`,
+                      maskSize: 'cover',
+                      maskPosition: 'center',
+                      maskRepeat: 'no-repeat',
+                      WebkitMaskImage: `url('/masks/hex-luma.png')`,
+                      WebkitMaskSize: 'cover',
+                      WebkitMaskPosition: 'center',
+                      WebkitMaskRepeat: 'no-repeat',
+                      maskMode: 'luminance',
+                      WebkitMaskMode: 'luminance'
+                    } as any} />
 
                     <div className="absolute inset-0 bg-gradient-to-r from-black via-black/50 to-transparent opacity-90 transition-opacity" />
                   </div>
