@@ -207,27 +207,60 @@ export async function getAvailabilityTokenByToken(
 // --- Experiments (Firestore Implementation) ---
 import { Experiment } from "./experiments-data";
 
-export async function getExperiments(): Promise<Experiment[]> {
-    if (!db) return [];
+function getLocalExperiments(): Experiment[] {
     try {
-        const snapshot = await db.collection("experiments").get();
-        return snapshot.docs.map(doc => doc.data() as Experiment);
-    } catch (error) {
-        console.error("Error getting experiments:", error);
-        return [];
+        const localPath = path.join(process.cwd(), "data", "experiments.json");
+        if (fs.existsSync(localPath)) {
+            const fileContents = fs.readFileSync(localPath, "utf8");
+            return JSON.parse(fileContents);
+        }
+    } catch (e) {
+        console.warn("Failed to load local experiments fallback:", e);
     }
+    return [];
+}
+
+export async function getExperiments(): Promise<Experiment[]> {
+    let experiments: Experiment[] = [];
+
+    // 1. Try Firestore
+    if (db) {
+        try {
+            const snapshot = await db.collection("experiments").get();
+            if (!snapshot.empty) {
+                experiments = snapshot.docs.map(doc => doc.data() as Experiment);
+            }
+        } catch (error) {
+            console.error("Error getting experiments from Firestore:", error);
+        }
+    }
+
+    // 2. Fallback to local JSON if empty
+    if (experiments.length === 0) {
+        console.warn("Firestore experiments empty or failed. Using local fallback.");
+        experiments = getLocalExperiments();
+    }
+
+    return experiments;
 }
 
 export async function getExperimentBySlug(slug: string): Promise<Experiment | null> {
-    if (!db) return null;
-    try {
-        const snapshot = await db.collection("experiments").where("slug", "==", slug).limit(1).get();
-        if (snapshot.empty) return null;
-        return snapshot.docs[0].data() as Experiment;
-    } catch (error) {
-        console.error("Error getting experiment by slug:", error);
-        return null;
+    // 1. Try Firestore
+    if (db) {
+        try {
+            const snapshot = await db.collection("experiments").where("slug", "==", slug).limit(1).get();
+            if (!snapshot.empty) {
+                return snapshot.docs[0].data() as Experiment;
+            }
+        } catch (error) {
+            console.error("Error getting experiment by slug from Firestore:", error);
+        }
     }
+
+    // 2. Fallback to local JSON
+    console.warn(`Firestore lookup for ${slug} failed/empty. Checking local fallback.`);
+    const localExperiments = getLocalExperiments();
+    return localExperiments.find(e => e.slug === slug) || null;
 }
 
 export async function getFeaturedExperiments(limit: number = 3): Promise<Experiment[]> {
