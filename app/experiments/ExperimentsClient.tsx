@@ -55,7 +55,7 @@ export default function ExperimentsPage({ experiments }: ExperimentsPageProps) {
                     WebkitMaskRepeat: 'no-repeat',
                     maskMode: 'luminance',
                     WebkitMaskMode: 'luminance'
-                  }}>
+                  } as any}>
                     <Image
                       src={exp.image}
                       alt={exp.title}
