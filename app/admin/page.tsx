@@ -40,13 +40,23 @@ export default function AdminPage() {
 
     const handleSave = async () => {
         setSaving(true);
-        await fetch("/api/experiments", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(experiments),
-        });
+        try {
+            const res = await fetch("/api/experiments", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(experiments),
+            });
+            const data = await res.json();
+
+            if (res.ok && data.success) {
+                alert(`Saved successfully! (${data.count} items saved)`);
+            } else {
+                alert(`Save failed: ${data.error || "Unknown error"}`);
+            }
+        } catch (e) {
+            alert(`Save failed: ${e}`);
+        }
         setSaving(false);
-        alert("Saved successfully!");
     };
 
     const selectedExperiment = experiments.find((e) => e.id === selectedId);

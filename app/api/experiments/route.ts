@@ -19,14 +19,21 @@ export async function POST(request: Request) {
         if (Array.isArray(body)) {
             const experiments = body as Experiment[];
             let successCount = 0;
+            const errors = [];
 
             for (const exp of experiments) {
                 const result = await saveExperiment(exp);
-                if (result.success) successCount++;
+                if (result.success) {
+                    successCount++;
+                } else {
+                    errors.push(`Failed to save ${exp.slug}: ${result.error}`);
+                }
             }
 
-            // If at least one saved, we consider it a success (or partial)
-            // Ideally we'd optimize this batching
+            if (errors.length > 0) {
+                return NextResponse.json({ success: false, error: errors.join(", "), count: successCount }, { status: 500 });
+            }
+
             return NextResponse.json({ success: true, count: successCount });
         } else {
             return NextResponse.json({ error: 'Expected array of experiments' }, { status: 400 });
