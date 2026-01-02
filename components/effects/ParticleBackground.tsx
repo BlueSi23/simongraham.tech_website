@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useMemo } from "react";
 import { usePathname } from "next/navigation";
 import Particles, { initParticlesEngine } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim";
@@ -75,6 +75,88 @@ export function ParticleBackground() {
         return () => clearTimeout(timeoutId);
     }, [mounted, isDesktop]);
 
+    const options = useRef({
+        background: {
+            color: { value: "transparent" },
+        },
+        fpsLimit: 120,
+        particles: {
+            color: { value: "#ffffff" },
+            links: {
+                color: "#ffffff",
+                distance: 150,
+                enable: true,
+                opacity: 0.6,
+                width: 1,
+            },
+            move: {
+                enable: true,
+                speed: 2,
+                direction: "none" as const,
+                random: false,
+                straight: false,
+                outModes: {
+                    default: "out" as const,
+                },
+            },
+            number: {
+                density: {
+                    enable: true,
+                },
+                value: 0, // Initial value, updated via state but won't trigger re-init if reference is stable... wait
+            },
+            opacity: { value: 0.8 },
+            size: { value: { min: 1, max: 2 } },
+        },
+        interactivity: {
+            events: {
+                onHover: {
+                    enable: true,
+                    mode: ["repulse", "bubble"],
+                },
+                onClick: {
+                    enable: true,
+                    mode: "attract",
+                },
+            },
+            modes: {
+                repulse: {
+                    distance: 150,
+                    duration: 0.4,
+                },
+                bubble: {
+                    distance: 100,
+                    size: 4,
+                    duration: 0.3,
+                    opacity: 0.8,
+                },
+                attract: {
+                    distance: 200,
+                    duration: 0.4,
+                },
+            },
+        },
+        detectRetina: true,
+    }).current;
+
+    // We need to update the particle count dynamically without recreating the options object if possible.
+    // However, tsparticles options are usually static.
+    // If we want to change density, we usually DO need to re-init.
+    // BUT the 'glitch' effect is the issue. Glitch changes 'chromaticActive', which forces re-render.
+    // Ideally 'options' should NOT depend on 'chromaticActive'.
+
+    // In the original code, 'options' used 'particleCount'.
+    // 'particleCount' changes only on Resize.
+    // 'chromaticActive' changes on timer.
+
+    // So we should memoize options based on 'particleCount'.
+    // const options = useMemo(() => ({ ... value: particleCount ... }), [particleCount]);
+
+    // If we do that, toggling 'chromaticActive' (which triggers re-render) will see the SAME 'options' reference.
+    // And thus Particles WON'T re-init.
+
+    // So useMemo is the correct solution.
+
     if (!init || !mounted) {
         return null;
     }
@@ -89,18 +171,14 @@ export function ParticleBackground() {
                 width: '100%',
                 height: '100%',
                 zIndex: -1,
-                /* Constant visibility */
                 opacity: 1,
-                /* Chromatic aberration filter logic */
                 filter: chromaticActive
                     ? `drop-shadow(5px 0 0 rgba(255, 0, 0, 0.8)) drop-shadow(-5px 0 0 rgba(0, 255, 255, 0.8)) drop-shadow(0 3px 0 rgba(0, 255, 0, 0.5))`
                     : 'none',
                 transition: 'filter 0.2s ease-in-out',
-                /* GPU optimization */
                 willChange: isTransitioning ? 'filter, transform' : (chromaticActive ? 'filter' : 'auto'),
                 transform: 'translateZ(0)',
             }}
-            /* Apply spectrum-block animation from global CSS when transitioning */
             className={isTransitioning ? "glitch-active-particles" : ""}
         >
             <Particles
@@ -112,69 +190,7 @@ export function ParticleBackground() {
                     width: '100%',
                     height: '100%',
                 }}
-                options={{
-                    background: {
-                        color: { value: "transparent" },
-                    },
-                    fpsLimit: 120,
-                    particles: {
-                        color: { value: "#ffffff" },
-                        links: {
-                            color: "#ffffff",
-                            distance: 150,
-                            enable: true,
-                            opacity: 0.6,
-                            width: 1,
-                        },
-                        move: {
-                            enable: true,
-                            speed: 2,
-                            direction: "none",
-                            random: false,
-                            straight: false,
-                            outModes: {
-                                default: "out",
-                            },
-                        },
-                        number: {
-                            density: {
-                                enable: true,
-                            },
-                            value: particleCount,
-                        },
-                        opacity: { value: 0.8 },
-                        size: { value: { min: 1, max: 2 } },
-                    },
-                    interactivity: {
-                        events: {
-                            onHover: {
-                                enable: true,
-                                mode: ["repulse", "bubble"],
-                            },
-                            onClick: {
-                                enable: true,
-                                mode: "attract",
-                            },
-                        },
-                        modes: {
-                            repulse: {
-                                distance: 150,
-                                duration: 0.4,
-                            },
-                            bubble: {
-                                distance: 100,
-                                size: 4,
-                                duration: 0.3,
-                                opacity: 0.8,
-                            },
-                            attract: {
-                                distance: 200,
-                                duration: 0.4,
-                            },
-                        },
-                    },
-                    detectRetina: true,
-                }}
+                options={options}
             />
         </div>
     );

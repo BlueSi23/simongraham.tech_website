@@ -48,13 +48,17 @@ export default function ExperimentsPage({ experiments }: ExperimentsPageProps) {
                 />
                 <div className="absolute inset-0 bg-gradient-to-r from-black via-black/50 to-transparent opacity-90 transition-opacity" />
 
-                <div className="absolute bottom-0 left-0 p-4 md:p-8 w-full flex flex-row items-baseline gap-3">
-                  <p className="text-[10px] md:text-xs text-white/80 font-mono tracking-wider uppercase whitespace-nowrap">
-                    {exp.category}
-                  </p>
-                  <h3 className="text-lg md:text-3xl font-light text-white tracking-tight truncate">
-                    {exp.title}
-                  </h3>
+                <div className="absolute bottom-0 inset-x-0 p-4 md:p-8 grid grid-cols-2 gap-6 items-baseline pointer-events-none">
+                  <div className="text-right">
+                    <p className="text-[10px] md:text-xs text-white/80 font-mono tracking-wider uppercase whitespace-nowrap">
+                      {exp.category}
+                    </p>
+                  </div>
+                  <div className="text-left overflow-hidden">
+                    <h3 className="text-lg md:text-3xl font-light text-white tracking-tight truncate">
+                      {exp.title}
+                    </h3>
+                  </div>
                 </div>
               </div>
             ))}
