@@ -21,8 +21,8 @@ export async function POST(request: Request) {
             let successCount = 0;
 
             for (const exp of experiments) {
-                const saved = await saveExperiment(exp);
-                if (saved) successCount++;
+                const result = await saveExperiment(exp);
+                if (result.success) successCount++;
             }
 
             // If at least one saved, we consider it a success (or partial)

@@ -240,14 +240,14 @@ export async function getRelatedExperiments(slug: string, tags: string[] = [], l
     }
 }
 
-export async function saveExperiment(experiment: Experiment): Promise<boolean> {
-    if (!db) return false;
+export async function saveExperiment(experiment: Experiment): Promise<{ success: boolean; error?: string }> {
+    if (!db) return { success: false, error: "Firestore not initialized" };
     try {
         await db.collection("experiments").doc(experiment.id).set(experiment);
-        return true;
-    } catch (error) {
+        return { success: true };
+    } catch (error: any) {
         console.error("Error saving experiment:", error);
-        return false;
+        return { success: false, error: error.message || String(error) };
     }
 }
 

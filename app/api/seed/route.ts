@@ -6,18 +6,24 @@ export async function GET() {
     try {
         const experiments = INITIAL_EXPERIMENTS;
         let count = 0;
+        const errors: string[] = [];
 
         for (const exp of experiments) {
-            const success = await saveExperiment(exp);
-            if (success) count++;
+            const result = await saveExperiment(exp);
+            if (result.success) {
+                count++;
+            } else {
+                errors.push(`Failed to save ${exp.slug}: ${result.error}`);
+            }
         }
 
         return NextResponse.json({
-            message: "Seeding complete (from static data)",
+            message: "Seeding run finished",
             total: experiments.length,
-            seeded: count
+            seeded: count,
+            errors: errors.length > 0 ? errors : undefined
         });
     } catch (error) {
-        return NextResponse.json({ error: "Seeding failed" }, { status: 500 });
+        return NextResponse.json({ error: "Seeding crashed", details: String(error) }, { status: 500 });
     }
 }
