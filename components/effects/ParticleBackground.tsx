@@ -75,7 +75,7 @@ export function ParticleBackground() {
         return () => clearTimeout(timeoutId);
     }, [mounted, isDesktop]);
 
-    const options = useRef({
+    const options = useMemo(() => ({
         background: {
             color: { value: "transparent" },
         },
@@ -103,7 +103,7 @@ export function ParticleBackground() {
                 density: {
                     enable: true,
                 },
-                value: 0, // Initial value, updated via state but won't trigger re-init if reference is stable... wait
+                value: particleCount,
             },
             opacity: { value: 0.8 },
             size: { value: { min: 1, max: 2 } },
@@ -137,7 +137,7 @@ export function ParticleBackground() {
             },
         },
         detectRetina: true,
-    }).current;
+    }), [particleCount]);
 
     // We need to update the particle count dynamically without recreating the options object if possible.
     // However, tsparticles options are usually static.
