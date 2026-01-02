@@ -55,7 +55,6 @@ if (!admin.apps.length) {
         db = null;
     }
 }
-}
 
 export function getFirestoreStatus() {
     return {
