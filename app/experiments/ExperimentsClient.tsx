@@ -41,28 +41,41 @@ export default function ExperimentsPage({ experiments }: ExperimentsPageProps) {
                 <div
                   key={exp.id}
                   onClick={() => setSelectedId(exp.id)}
-                  className={`relative w-full aspect-[16/2] cursor-pointer overflow-hidden rounded-sm bg-zinc-900 group ${selectedId && selectedId !== exp.id ? "grayscale opacity-30" : ""
+                  className={`relative w-full aspect-[21/9] cursor-pointer overflow-hidden rounded-sm bg-zinc-900 group ${selectedId && selectedId !== exp.id ? "grayscale opacity-30" : ""
                     } transition-all duration-500 border border-zinc-800 hover:border-zinc-600`}
                 >
-                  <Image
-                    src={exp.image}
-                    alt={exp.title}
-                    fill
-                    priority
-                    className="object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-r from-black via-black/50 to-transparent opacity-90 transition-opacity" />
+                  <div className="absolute inset-0 w-full h-full" style={{
+                    maskImage: `url('/masks/hex-luma.png')`,
+                    maskSize: 'cover',
+                    maskPosition: 'center',
+                    maskRepeat: 'no-repeat',
+                    WebkitMaskImage: `url('/masks/hex-luma.png')`,
+                    WebkitMaskSize: 'cover',
+                    WebkitMaskPosition: 'center',
+                    WebkitMaskRepeat: 'no-repeat',
+                    maskMode: 'luminance',
+                    WebkitMaskMode: 'luminance'
+                  }}>
+                    <Image
+                      src={exp.image}
+                      alt={exp.title}
+                      fill
+                      priority
+                      className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-r from-black via-black/50 to-transparent opacity-90 transition-opacity" />
+                  </div>
 
-                  <div className="absolute bottom-0 inset-x-0 p-4 md:p-8 grid grid-cols-2 gap-6 items-baseline pointer-events-none">
-                    <div className="text-right">
-                      <p className="text-[10px] md:text-xs text-white/80 font-mono tracking-wider uppercase whitespace-nowrap">
-                        {exp.category}
-                      </p>
-                    </div>
-                    <div className="text-left overflow-hidden">
+                  <div className="absolute bottom-0 inset-x-0 px-[10px] pb-[10px] flex justify-between items-end pointer-events-none z-20">
+                    <div className="text-left overflow-hidden order-1">
                       <h3 className="text-lg md:text-3xl font-light text-white tracking-tight truncate">
                         {exp.title}
                       </h3>
+                    </div>
+                    <div className="text-right order-2">
+                      <p className="text-[10px] md:text-xs text-white/80 font-mono tracking-wider uppercase whitespace-nowrap">
+                        {exp.category}
+                      </p>
                     </div>
                   </div>
                 </div>
