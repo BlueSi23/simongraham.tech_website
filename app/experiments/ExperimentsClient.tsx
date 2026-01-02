@@ -41,21 +41,10 @@ export default function ExperimentsPage({ experiments }: ExperimentsPageProps) {
                 <div
                   key={exp.id}
                   onClick={() => setSelectedId(exp.id)}
-                  className={`relative w-full aspect-[21/9] cursor-pointer overflow-hidden rounded-sm bg-zinc-900 group ${selectedId && selectedId !== exp.id ? "grayscale opacity-30" : ""
+                  className={`relative w-full aspect-[16/2] cursor-pointer overflow-hidden rounded-sm bg-zinc-900 group ${selectedId && selectedId !== exp.id ? "grayscale opacity-30" : ""
                     } transition-all duration-500 border border-zinc-800 hover:border-zinc-600`}
                 >
-                  <div className="absolute inset-0 w-full h-full" style={{
-                    maskImage: `url('/masks/hex-luma.png')`,
-                    maskSize: 'cover',
-                    maskPosition: 'center',
-                    maskRepeat: 'no-repeat',
-                    WebkitMaskImage: `url('/masks/hex-luma.png')`,
-                    WebkitMaskSize: 'cover',
-                    WebkitMaskPosition: 'center',
-                    WebkitMaskRepeat: 'no-repeat',
-                    maskMode: 'luminance',
-                    WebkitMaskMode: 'luminance'
-                  } as any}>
+                  <div className="absolute inset-0 w-full h-full">
                     <Image
                       src={exp.image}
                       alt={exp.title}
@@ -63,6 +52,20 @@ export default function ExperimentsPage({ experiments }: ExperimentsPageProps) {
                       priority
                       className="object-cover transition-transform duration-700 group-hover:scale-105"
                     />
+                    {/* Hexagon Overlay Mask - Black overlay masked by hex map */}
+                    <div className="absolute inset-0 bg-black pointer-events-none transition-opacity duration-500 group-hover:opacity-70" style={{
+                      maskImage: `url('/masks/hex-luma.png')`,
+                      maskSize: 'cover',
+                      maskPosition: 'center',
+                      maskRepeat: 'no-repeat',
+                      WebkitMaskImage: `url('/masks/hex-luma.png')`,
+                      WebkitMaskSize: 'cover',
+                      WebkitMaskPosition: 'center',
+                      WebkitMaskRepeat: 'no-repeat',
+                      maskMode: 'luminance',
+                      WebkitMaskMode: 'luminance'
+                    } as any} />
+
                     <div className="absolute inset-0 bg-gradient-to-r from-black via-black/50 to-transparent opacity-90 transition-opacity" />
                   </div>
 

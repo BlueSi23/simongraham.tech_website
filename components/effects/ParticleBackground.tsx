@@ -138,15 +138,15 @@ export function ParticleBackground() {
             },
             modes: {
                 repulse: {
-                    distance: 150,
+                    distance: 200, // Increased from 150
                     duration: 0.4,
                     easing: "ease-out-quad",
-                    factor: 1,
+                    factor: 100, // Increased factor for snappier repel
                     speed: 1,
                     maxSpeed: 50
                 },
                 bubble: {
-                    distance: 100,
+                    distance: 200, // Increased from 100
                     size: 4,
                     duration: 0.3,
                     opacity: 0.8,
